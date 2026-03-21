@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Management Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f4f5f7;
+      color: #2c3e50;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: 0.3px; }
+    header .meta { font-size: 0.85rem; opacity: 0.65; margin-top: 3px; }
+    header .date { font-size: 0.9rem; opacity: 0.8; text-align: right; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
+
+    /* Summary cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .card .number { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+    .card .label { font-size: 0.78rem; color: #7f8c8d; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card.daily   .number { color: #e74c3c; }
+    .card.weekly  .number { color: #2980b9; }
+    .card.fortnight .number { color: #8e44ad; }
+    .card.monthly .number { color: #27ae60; }
+    .card.longer  .number { color: #f39c12; }
+    .card.total   .number { color: #2c3e50; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #7f8c8d;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .tab:hover { color: #2c3e50; }
+    .tab.active { color: #2c3e50; border-bottom-color: #2c3e50; }
+
+    /* Panels */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* Frequency view */
+    .freq-sections { display: flex; flex-direction: column; gap: 20px; }
+    .freq-block {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .freq-header {
+      padding: 13px 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .freq-header .count {
+      background: rgba(255,255,255,0.35);
+      border-radius: 12px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+    }
+    .freq-daily   .freq-header { background: #e74c3c; color: white; }
+    .freq-weekly  .freq-header { background: #2980b9; color: white; }
+    .freq-fortnight .freq-header { background: #8e44ad; color: white; }
+    .freq-monthly .freq-header { background: #27ae60; color: white; }
+    .freq-longer  .freq-header { background: #f39c12; color: white; }
+
+    .freq-items { padding: 0; }
+    .freq-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.9rem;
+    }
+    .freq-item:last-child { border-bottom: none; }
+    .freq-item:hover { background: #fafafa; }
+    .freq-item .task-name { font-weight: 500; }
+    .freq-item .task-cat {
+      font-size: 0.75rem;
+      color: #7f8c8d;
+      background: #f0f0f0;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+    .freq-item .task-detail {
+      font-size: 0.78rem;
+      color: #95a5a6;
+      margin-top: 2px;
+    }
+    .freq-item .task-info { flex: 1; }
+
+    /* Category view */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .cat-block {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .cat-header {
+      padding: 14px 20px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: white;
+    }
+    .cat-cleaning   { background: #2980b9; }
+    .cat-kitchen    { background: #e67e22; }
+    .cat-garden     { background: #27ae60; }
+    .cat-admin      { background: #8e44ad; }
+
+    .cat-table { width: 100%; border-collapse: collapse; }
+    .cat-table td { padding: 10px 20px; font-size: 0.88rem; border-bottom: 1px solid #f0f0f0; }
+    .cat-table tr:last-child td { border-bottom: none; }
+    .cat-table tr:hover td { background: #fafafa; }
+    .cat-table .freq-tag {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .tag-daily     { background: #fdecea; color: #c0392b; }
+    .tag-weekly    { background: #eaf4fb; color: #1a6fa0; }
+    .tag-fortnight { background: #f4eafb; color: #7d3c98; }
+    .tag-monthly   { background: #eafaf1; color: #1e8449; }
+    .tag-longer    { background: #fef9e7; color: #b7770d; }
+
+    /* Schedule view */
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .day-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .day-header {
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      background: #2c3e50;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .day-header.today-highlight { background: #e74c3c; }
+    .day-header .today-badge {
+      font-size: 0.7rem;
+      background: rgba(255,255,255,0.25);
+      padding: 2px 7px;
+      border-radius: 8px;
+    }
+    .day-tasks { padding: 10px 16px; }
+    .day-task {
+      padding: 6px 0;
+      font-size: 0.87rem;
+      color: #34495e;
+      border-bottom: 1px solid #f5f5f5;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+    }
+    .day-task:last-child { border-bottom: none; }
+    .day-task::before { content: "—"; color: #bdc3c7; flex-shrink: 0; margin-top: 1px; }
+
+    /* Watering schedule */
+    .watering-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .watering-card h3 { font-size: 0.88rem; font-weight: 600; margin-bottom: 14px; color: #2c3e50; }
+    .watering-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+    .watering-item {
+      background: #eafaf1;
+      border: 1px solid #a9dfbf;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+    }
+    .watering-item strong { display: block; color: #1e8449; font-weight: 600; margin-bottom: 2px; }
+    .watering-item span { color: #555; font-size: 0.8rem; }
+
+    /* Seasonal */
+    .seasonal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .season-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .season-header { padding: 12px 18px; font-weight: 600; font-size: 0.88rem; color: white; }
+    .summer  { background: #e74c3c; }
+    .autumn  { background: #e67e22; }
+    .winter  { background: #3498db; }
+    .spring  { background: #27ae60; }
+    .season-body { padding: 14px 18px; font-size: 0.85rem; color: #555; line-height: 1.6; }
+    .season-months { font-size: 0.75rem; color: #95a5a6; margin-bottom: 8px; }
+
+    .section-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #7f8c8d;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Home Management Dashboard</h1>
+    <div class="meta">Perth, Western Australia — Kikuyu lawn</div>
+  </div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <div class="date" id="headerDate"></div>
+    <a href="index.html" style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:600; white-space:nowrap; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.08); color:white; text-decoration:none;">
+      ← Tasks
+    </a>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Summary cards -->
+  <div class="summary-grid">
+    <div class="card total">
+      <div class="number">30</div>
+      <div class="label">Total Tasks</div>
+    </div>
+    <div class="card daily">
+      <div class="number">3</div>
+      <div class="label">Daily</div>
+    </div>
+    <div class="card weekly">
+      <div class="number">11</div>
+      <div class="label">Weekly</div>
+    </div>
+    <div class="card fortnight">
+      <div class="number">7</div>
+      <div class="label">Fortnightly</div>
+    </div>
+    <div class="card monthly">
+      <div class="number">7</div>
+      <div class="label">Monthly</div>
+    </div>
+    <div class="card longer">
+      <div class="number">2</div>
+      <div class="label">Quarterly+</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('frequency')">By Frequency</div>
+    <div class="tab" onclick="showTab('category')">By Category</div>
+    <div class="tab" onclick="showTab('schedule')">Weekly Schedule</div>
+    <div class="tab" onclick="showTab('seasonal')">Seasonal Guide</div>
+  </div>
+
+  <!-- Panel: By Frequency -->
+  <div class="panel active" id="panel-frequency">
+    <div class="freq-sections">
+
+      <div class="freq-block freq-daily">
+        <div class="freq-header">Daily <span class="count">3 tasks</span></div>
+        <div class="freq-items">
+          <div class="freq-item"><div class="task-info"><div class="task-name">Vacuum all floors</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe kitchen benches</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Water garden beds</div><div class="task-detail">Tue, Thu & Sat</div></div><span class="task-cat">Garden</span></div>
+        </div>
+      </div>
+
+      <div class="freq-block freq-weekly">
+        <div class="freq-header">Weekly <span class="count">11 tasks</span></div>
+        <div class="freq-items">
+          <div class="freq-item"><div class="task-info"><div class="task-name">Mop hard floors</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean stovetop</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean bathroom sink/mirror</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Scrub toilet</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Scrub shower/bath</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe down fridge exterior</div></div><span class="task-cat">Kitchen</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Water lawn</div><div class="task-detail">Wed & Sun</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Grocery shopping</div><div class="task-detail">Fri, Sat or Sun</div></div><span class="task-cat">Admin</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Check and restock supplies</div><div class="task-detail">Wed or Thu</div></div><span class="task-cat">Admin</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Review home management file</div></div><span class="task-cat">Admin</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Mow Kikuyu lawn</div><div class="task-detail">Summer only — fortnightly in winter</div></div><span class="task-cat">Garden</span></div>
+        </div>
+      </div>
+
+      <div class="freq-block freq-fortnight">
+        <div class="freq-header">Fortnightly <span class="count">7 tasks</span></div>
+        <div class="freq-items">
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean microwave</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean dishwasher</div></div><span class="task-cat">Kitchen</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean washing machine</div></div><span class="task-cat">Kitchen</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Edge lawn</div><div class="task-detail">Same day as mow</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Weed garden beds</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Sweep patio/outdoor areas</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Mow Kikuyu lawn</div><div class="task-detail">Winter only — weekly in summer</div></div><span class="task-cat">Garden</span></div>
+        </div>
+      </div>
+
+      <div class="freq-block freq-monthly">
+        <div class="freq-header">Monthly <span class="count">7 tasks</span></div>
+        <div class="freq-items">
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean oven interior</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Dust surfaces and shelves</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe windowsills</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean light switches/handles</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean fridge interior</div></div><span class="task-cat">Kitchen</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Descale kettle</div></div><span class="task-cat">Kitchen</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Clean outdoor furniture</div></div><span class="task-cat">Garden</span></div>
+        </div>
+      </div>
+
+      <div class="freq-block freq-longer">
+        <div class="freq-header">Quarterly / Twice Yearly <span class="count">2 tasks</span></div>
+        <div class="freq-items">
+          <div class="freq-item"><div class="task-info"><div class="task-name">Wash windows</div><div class="task-detail">Quarterly</div></div><span class="task-cat">Cleaning</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe pantry shelves</div><div class="task-detail">Quarterly</div></div><span class="task-cat">Kitchen</span></div>
+          <div class="freq-item"><div class="task-info"><div class="task-name">Check and clean gutters</div><div class="task-detail">Twice yearly</div></div><span class="task-cat">Garden</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Panel: By Category -->
+  <div class="panel" id="panel-category">
+    <div class="cat-grid">
+
+      <div class="cat-block">
+        <div class="cat-header cat-cleaning">Cleaning — 13 tasks</div>
+        <table class="cat-table">
+          <tr><td>Vacuum all floors</td><td><span class="freq-tag tag-daily">Daily</span></td></tr>
+          <tr><td>Wipe kitchen benches</td><td><span class="freq-tag tag-daily">Daily</span></td></tr>
+          <tr><td>Mop hard floors</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr><td>Clean stovetop</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr><td>Clean bathroom sink/mirror</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr><td>Scrub toilet</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr><td>Scrub shower/bath</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr><td>Clean microwave</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr><td>Dust surfaces and shelves</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr><td>Wipe windowsills</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr><td>Clean light switches/handles</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr><td>Clean oven interior</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr><td>Wash windows</td><td><span class="freq-tag tag-longer">Quarterly</span></td></tr>
+        </table>
+      </div>
+
+      <div class="cat-block">
+        <div class="cat-header cat-kitchen">Kitchen — 6 tasks</div>
+        <table class="cat-table">
+          <tr><td>Wipe down fridge exterior</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr><td>Clean dishwasher</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr><td>Clean washing machine</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr><td>Clean fridge interior</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr><td>Descale kettle</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr><td>Wipe pantry shelves</td><td><span class="freq-tag tag-longer">Quarterly</span></td></tr>
+        </table>
+      </div>
+
+      <div class="cat-block">
+        <div class="cat-header cat-garden">Garden & Outdoor — 8 tasks</div>
+        <table class="cat-table">
+          <tr><td>Water garden beds</td><td><span class="freq-tag tag-daily">Tue, Thu & Sat</span></td></tr>
+          <tr><td>Water lawn</td><td><span class="freq-tag tag-weekly">Wed & Sun</span></td></tr>
+          <tr><td>Mow Kikuyu lawn</td><td><span class="freq-tag tag-weekly">Wkly/Fortn</span></td></tr>
+          <tr><td>Edge lawn</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr><td>Weed garden beds</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr><td>Sweep patio/outdoor areas</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr><td>Clean outdoor furniture</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr><td>Check and clean gutters</td><td><span class="freq-tag tag-longer">Twice yearly</span></td></tr>
+        </table>
+      </div>
+
+      <div class="cat-block">
+        <div class="cat-header cat-admin">Admin & Household — 3 tasks</div>
+        <table class="cat-table">
+          <tr><td>Check and restock supplies</td><td><span class="freq-tag tag-weekly">Wed or Thu</span></td></tr>
+          <tr><td>Grocery shopping</td><td><span class="freq-tag tag-weekly">Fri, Sat or Sun</span></td></tr>
+          <tr><td>Review home management file</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Panel: Weekly Schedule -->
+  <div class="panel" id="panel-schedule">
+    <div class="schedule-grid" id="scheduleGrid"></div>
+
+    <div class="watering-card">
+      <h3>Watering Schedule (Perth Council Restrictions)</h3>
+      <div class="watering-grid">
+        <div class="watering-item"><strong>Monday</strong><span>No watering</span></div>
+        <div class="watering-item" style="background:#eafaf1;border-color:#a9dfbf"><strong>Tuesday</strong><span>Garden beds</span></div>
+        <div class="watering-item" style="background:#eaf4fb;border-color:#a9cce3"><strong>Wednesday</strong><span>Lawn</span></div>
+        <div class="watering-item" style="background:#eafaf1;border-color:#a9dfbf"><strong>Thursday</strong><span>Garden beds</span></div>
+        <div class="watering-item"><strong>Friday</strong><span>No watering</span></div>
+        <div class="watering-item" style="background:#eafaf1;border-color:#a9dfbf"><strong>Saturday</strong><span>Garden beds</span></div>
+        <div class="watering-item" style="background:#eaf4fb;border-color:#a9cce3"><strong>Sunday</strong><span>Lawn</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Seasonal -->
+  <div class="panel" id="panel-seasonal">
+    <div class="section-title">Perth Climate — Seasonal Task Adjustments</div>
+    <div class="seasonal-grid">
+      <div class="season-card">
+        <div class="season-header summer">Summer — Dec to Feb</div>
+        <div class="season-body">
+          <div class="season-months">Currently active: No</div>
+          Mow lawn weekly. Water early morning only. Increase dust cleaning frequency. Check ceiling fans and air vents. 40°C+ days — avoid outdoor tasks; reschedule to early morning.
+        </div>
+      </div>
+      <div class="season-card">
+        <div class="season-header autumn">Autumn — Mar to May</div>
+        <div class="season-body">
+          <div class="season-months">Currently active: Yes</div>
+          Wind increases leaf and debris buildup — sweep patio more often. Gutter check recommended before end of season. Begin reducing lawn watering as temps drop.
+        </div>
+      </div>
+      <div class="season-card">
+        <div class="season-header winter">Winter — Jun to Aug</div>
+        <div class="season-body">
+          <div class="season-months">Currently active: No</div>
+          Reduce lawn mowing to fortnightly. Increase indoor cleaning focus. Check bathrooms and wet areas for mould. Review garden bed drainage.
+        </div>
+      </div>
+      <div class="season-card">
+        <div class="season-header spring">Spring — Sep to Nov</div>
+        <div class="season-body">
+          <div class="season-months">Currently active: No</div>
+          Resume weekly mowing schedule. Weed surge in garden beds — increase weeding cadence. Pest check recommended (ants, spiders). Refresh outdoor furniture.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Set header date
+  const now = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('headerDate').innerHTML =
+    now.toLocaleDateString('en-AU', options) + '<br><span style="font-size:0.75rem;opacity:0.6">Perth, Western Australia</span>';
+
+  // Tab switching
+  function showTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('panel-' + name).classList.add('active');
+  }
+
+  // Weekly schedule data
+  const schedule = [
+    { day: 'Monday',    tasks: ['Vacuum all floors', 'Wipe kitchen benches'] },
+    { day: 'Tuesday',   tasks: ['Water garden beds', 'Wipe kitchen benches', 'Vacuum all floors'] },
+    { day: 'Wednesday', tasks: ['Bathroom clean (sink, toilet, shower)', 'Check and restock supplies', 'Water lawn', 'Wipe kitchen benches', 'Vacuum all floors'] },
+    { day: 'Thursday',  tasks: ['Water garden beds', 'Dust surfaces / clean microwave / stovetop', 'Wipe kitchen benches', 'Vacuum all floors'] },
+    { day: 'Friday',    tasks: ['Grocery shopping', 'Wipe kitchen benches', 'Vacuum all floors'] },
+    { day: 'Saturday',  tasks: ['Mow / edge lawn', 'Sweep outdoor areas', 'Water garden beds', 'Wipe fridge exterior', 'Wipe kitchen benches', 'Vacuum all floors'] },
+    { day: 'Sunday',    tasks: ['Water lawn', 'Review home management file', 'Flexible / catch-up / rest', 'Wipe kitchen benches', 'Vacuum all floors'] },
+  ];
+
+  const todayName = now.toLocaleDateString('en-AU', { weekday: 'long' });
+  const grid = document.getElementById('scheduleGrid');
+
+  schedule.forEach(({ day, tasks }) => {
+    const isToday = day === todayName;
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    card.innerHTML = `
+      <div class="day-header ${isToday ? 'today-highlight' : ''}">
+        ${day}
+        ${isToday ? '<span class="today-badge">Today</span>' : ''}
+      </div>
+      <div class="day-tasks">
+        ${tasks.map(t => `<div class="day-task">${t}</div>`).join('')}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+</script>
+</body>
+</html>

@@ -339,9 +339,14 @@
                     {seasonInfo[season].icon} {seasonInfo[season].label} · {todayName} · {seasonInfo[season].tip}
                   </p>
                 </div>
-                <button className="dark-btn" onClick={() => setDarkMode(d => !d)}>
-                  {dk ? "☀ Light" : "☾ Dark"}
-                </button>
+                <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                  <a href="dashboard.html" style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", minHeight: 44, borderRadius: 8, fontSize: 14, fontWeight: 600, whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.08)", color: "white", textDecoration: "none" }}>
+                    Dashboard →
+                  </a>
+                  <button className="dark-btn" onClick={() => setDarkMode(d => !d)}>
+                    {dk ? "☀ Light" : "☾ Dark"}
+                  </button>
+                </div>
               </div>
 
               {todaySched && (
