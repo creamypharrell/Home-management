@@ -26,6 +26,12 @@
     header .meta { font-size: 0.85rem; opacity: 0.65; margin-top: 3px; }
     header .date { font-size: 0.9rem; opacity: 0.8; text-align: right; }
 
+    /* Progress bar under header */
+    .progress-bar-wrap { background: #22303f; padding: 10px 32px; display: flex; align-items: center; gap: 14px; }
+    .progress-bar-track { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    .progress-bar-fill  { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #22c55e, #3b82f6); transition: width 0.6s ease; }
+    .progress-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); white-space: nowrap; min-width: 120px; text-align: right; }
+
     .container { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
 
     /* Summary cards */
@@ -43,13 +49,15 @@
       text-align: center;
     }
     .card .number { font-size: 2.2rem; font-weight: 700; line-height: 1; }
-    .card .label { font-size: 0.78rem; color: #7f8c8d; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .card.daily   .number { color: #e74c3c; }
-    .card.weekly  .number { color: #2980b9; }
+    .card .sub    { font-size: 0.78rem; color: #95a5a6; margin-top: 3px; min-height: 16px; }
+    .card .label  { font-size: 0.78rem; color: #7f8c8d; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card.daily     .number { color: #e74c3c; }
+    .card.weekly    .number { color: #2980b9; }
     .card.fortnight .number { color: #8e44ad; }
-    .card.monthly .number { color: #27ae60; }
-    .card.longer  .number { color: #f39c12; }
-    .card.total   .number { color: #2c3e50; }
+    .card.monthly   .number { color: #27ae60; }
+    .card.longer    .number { color: #f39c12; }
+    .card.total     .number { color: #2c3e50; }
+    .card.completed-card .number { color: #22c55e; }
 
     /* Tabs */
     .tabs {
@@ -77,7 +85,21 @@
     .panel { display: none; }
     .panel.active { display: block; }
 
-    /* Frequency view */
+    /* Completion dot (shared across views) */
+    .cdot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      flex-shrink: 0;
+      transition: background 0.2s;
+      margin-right: 4px;
+    }
+    .cdot.done-graeme { background: #3b82f6; }
+    .cdot.done-emily  { background: #ec4899; }
+    .task-row-done .task-name { text-decoration: line-through; opacity: 0.5; }
+    .done-by-label { font-size: 0.7rem; color: #95a5a6; margin-left: 6px; }
+
+    /* ── Frequency view ── */
     .freq-sections { display: flex; flex-direction: column; gap: 20px; }
     .freq-block {
       background: white;
@@ -101,11 +123,18 @@
       padding: 2px 8px;
       font-size: 0.75rem;
     }
-    .freq-daily   .freq-header { background: #e74c3c; color: white; }
-    .freq-weekly  .freq-header { background: #2980b9; color: white; }
+    .freq-header .done-count {
+      margin-left: auto;
+      background: rgba(255,255,255,0.25);
+      border-radius: 12px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+    }
+    .freq-daily     .freq-header { background: #e74c3c; color: white; }
+    .freq-weekly    .freq-header { background: #2980b9; color: white; }
     .freq-fortnight .freq-header { background: #8e44ad; color: white; }
-    .freq-monthly .freq-header { background: #27ae60; color: white; }
-    .freq-longer  .freq-header { background: #f39c12; color: white; }
+    .freq-monthly   .freq-header { background: #27ae60; color: white; }
+    .freq-longer    .freq-header { background: #f39c12; color: white; }
 
     .freq-items { padding: 0; }
     .freq-item {
@@ -115,6 +144,7 @@
       padding: 11px 20px;
       border-bottom: 1px solid #f0f0f0;
       font-size: 0.9rem;
+      gap: 10px;
     }
     .freq-item:last-child { border-bottom: none; }
     .freq-item:hover { background: #fafafa; }
@@ -125,15 +155,13 @@
       background: #f0f0f0;
       padding: 3px 8px;
       border-radius: 10px;
+      white-space: nowrap;
     }
-    .freq-item .task-detail {
-      font-size: 0.78rem;
-      color: #95a5a6;
-      margin-top: 2px;
-    }
-    .freq-item .task-info { flex: 1; }
+    .freq-item .task-detail { font-size: 0.78rem; color: #95a5a6; margin-top: 2px; }
+    .freq-item .task-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .freq-item .task-text { display: flex; flex-direction: column; }
 
-    /* Category view */
+    /* ── Category view ── */
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -150,16 +178,21 @@
       font-weight: 600;
       font-size: 0.92rem;
       color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .cat-cleaning   { background: #2980b9; }
-    .cat-kitchen    { background: #e67e22; }
-    .cat-garden     { background: #27ae60; }
-    .cat-admin      { background: #8e44ad; }
+    .cat-header .cat-progress { font-size: 0.78rem; opacity: 0.85; }
+    .cat-cleaning { background: #2980b9; }
+    .cat-kitchen  { background: #e67e22; }
+    .cat-garden   { background: #27ae60; }
+    .cat-admin    { background: #8e44ad; }
 
     .cat-table { width: 100%; border-collapse: collapse; }
     .cat-table td { padding: 10px 20px; font-size: 0.88rem; border-bottom: 1px solid #f0f0f0; }
     .cat-table tr:last-child td { border-bottom: none; }
     .cat-table tr:hover td { background: #fafafa; }
+    .cat-table tr.task-row-done td:first-child { text-decoration: line-through; opacity: 0.45; }
     .cat-table .freq-tag {
       font-size: 0.75rem;
       padding: 3px 8px;
@@ -172,19 +205,15 @@
     .tag-fortnight { background: #f4eafb; color: #7d3c98; }
     .tag-monthly   { background: #eafaf1; color: #1e8449; }
     .tag-longer    { background: #fef9e7; color: #b7770d; }
+    .cat-table .td-status { width: 28px; padding-right: 8px; }
 
-    /* Schedule view */
+    /* ── Schedule view ── */
     .schedule-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
     }
-    .day-card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
+    .day-card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; }
     .day-header {
       padding: 12px 16px;
       font-weight: 600;
@@ -196,12 +225,7 @@
       align-items: center;
     }
     .day-header.today-highlight { background: #e74c3c; }
-    .day-header .today-badge {
-      font-size: 0.7rem;
-      background: rgba(255,255,255,0.25);
-      padding: 2px 7px;
-      border-radius: 8px;
-    }
+    .day-header .today-badge { font-size: 0.7rem; background: rgba(255,255,255,0.25); padding: 2px 7px; border-radius: 8px; }
     .day-tasks { padding: 10px 16px; }
     .day-task {
       padding: 6px 0;
@@ -215,54 +239,59 @@
     .day-task:last-child { border-bottom: none; }
     .day-task::before { content: "—"; color: #bdc3c7; flex-shrink: 0; margin-top: 1px; }
 
-    /* Watering schedule */
-    .watering-card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-      padding: 20px;
-      margin-top: 20px;
+    /* ── Completion panel ── */
+    .completion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px; }
+    .comp-card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; }
+    .comp-card-header { padding: 13px 20px; font-size: 0.85rem; font-weight: 600; color: white; display: flex; justify-content: space-between; align-items: center; }
+    .comp-card-body { padding: 0; }
+    .comp-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.87rem;
+      gap: 10px;
     }
+    .comp-row:last-child { border-bottom: none; }
+    .comp-row .cr-name { flex: 1; }
+    .comp-row .cr-name.done { text-decoration: line-through; opacity: 0.45; }
+    .comp-row .cr-by { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+    .cr-by.by-graeme { background: #dbeafe; color: #1d4ed8; }
+    .cr-by.by-emily  { background: #fce7f3; color: #9d174d; }
+    .cr-by.by-none   { background: #f3f4f6; color: #9ca3af; }
+
+    .comp-summary { display: flex; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }
+    .comp-stat { background: white; border-radius: 10px; padding: 18px 22px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); flex: 1; min-width: 140px; text-align: center; }
+    .comp-stat .cs-num { font-size: 2rem; font-weight: 700; line-height: 1; }
+    .comp-stat .cs-label { font-size: 0.75rem; color: #7f8c8d; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .cs-graeme { color: #3b82f6; }
+    .cs-emily  { color: #ec4899; }
+    .cs-total  { color: #22c55e; }
+    .cs-remain { color: #f39c12; }
+
+    /* ── Watering schedule ── */
+    .watering-card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px; margin-top: 20px; }
     .watering-card h3 { font-size: 0.88rem; font-weight: 600; margin-bottom: 14px; color: #2c3e50; }
     .watering-grid { display: flex; gap: 12px; flex-wrap: wrap; }
-    .watering-item {
-      background: #eafaf1;
-      border: 1px solid #a9dfbf;
-      border-radius: 8px;
-      padding: 10px 16px;
-      font-size: 0.85rem;
-    }
-    .watering-item strong { display: block; color: #1e8449; font-weight: 600; margin-bottom: 2px; }
-    .watering-item span { color: #555; font-size: 0.8rem; }
+    .watering-item { background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; }
+    .watering-item strong { display: block; color: #374151; font-weight: 600; margin-bottom: 2px; }
+    .watering-item span { color: #6b7280; font-size: 0.8rem; }
+    .watering-item.active-water { background: #eafaf1; border-color: #a9dfbf; }
+    .watering-item.active-water strong { color: #1e8449; }
+    .watering-item.active-lawn { background: #eaf4fb; border-color: #a9cce3; }
+    .watering-item.active-lawn strong { color: #1a6fa0; }
 
-    /* Seasonal */
-    .seasonal-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-    .season-card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
+    /* ── Seasonal ── */
+    .seasonal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .season-card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; }
     .season-header { padding: 12px 18px; font-weight: 600; font-size: 0.88rem; color: white; }
-    .summer  { background: #e74c3c; }
-    .autumn  { background: #e67e22; }
-    .winter  { background: #3498db; }
-    .spring  { background: #27ae60; }
+    .summer { background: #e74c3c; } .autumn { background: #e67e22; }
+    .winter { background: #3498db; } .spring { background: #27ae60; }
     .season-body { padding: 14px 18px; font-size: 0.85rem; color: #555; line-height: 1.6; }
     .season-months { font-size: 0.75rem; color: #95a5a6; margin-bottom: 8px; }
 
-    .section-title {
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #7f8c8d;
-      margin-bottom: 14px;
-    }
+    .section-title { font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #7f8c8d; margin-bottom: 14px; }
+    .empty-state { text-align: center; padding: 32px; color: #9ca3af; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -280,42 +309,56 @@
   </div>
 </header>
 
+<div class="progress-bar-wrap">
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill" id="globalProgressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-label" id="globalProgressLabel">Loading…</div>
+</div>
+
 <div class="container">
 
   <!-- Summary cards -->
   <div class="summary-grid">
+    <div class="card completed-card">
+      <div class="number" id="cardDoneCount">—</div>
+      <div class="sub" id="cardDoneSub"></div>
+      <div class="label">Completed</div>
+    </div>
     <div class="card total">
       <div class="number">30</div>
+      <div class="sub" id="cardRemainSub"></div>
       <div class="label">Total Tasks</div>
     </div>
     <div class="card daily">
       <div class="number">3</div>
+      <div class="sub" id="cardDailySub"></div>
       <div class="label">Daily</div>
     </div>
     <div class="card weekly">
       <div class="number">11</div>
+      <div class="sub" id="cardWeeklySub"></div>
       <div class="label">Weekly</div>
     </div>
     <div class="card fortnight">
       <div class="number">7</div>
+      <div class="sub" id="cardFortnightSub"></div>
       <div class="label">Fortnightly</div>
     </div>
     <div class="card monthly">
       <div class="number">7</div>
+      <div class="sub"></div>
       <div class="label">Monthly</div>
-    </div>
-    <div class="card longer">
-      <div class="number">2</div>
-      <div class="label">Quarterly+</div>
     </div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" onclick="showTab('frequency')">By Frequency</div>
-    <div class="tab" onclick="showTab('category')">By Category</div>
-    <div class="tab" onclick="showTab('schedule')">Weekly Schedule</div>
-    <div class="tab" onclick="showTab('seasonal')">Seasonal Guide</div>
+    <div class="tab active" onclick="showTab('frequency', this)">By Frequency</div>
+    <div class="tab" onclick="showTab('category', this)">By Category</div>
+    <div class="tab" onclick="showTab('completion', this)">Completion</div>
+    <div class="tab" onclick="showTab('schedule', this)">Weekly Schedule</div>
+    <div class="tab" onclick="showTab('seasonal', this)">Seasonal Guide</div>
   </div>
 
   <!-- Panel: By Frequency -->
@@ -323,63 +366,176 @@
     <div class="freq-sections">
 
       <div class="freq-block freq-daily">
-        <div class="freq-header">Daily <span class="count">3 tasks</span></div>
+        <div class="freq-header">
+          Daily
+          <span class="count">3 tasks</span>
+          <span class="done-count" id="done-daily">— done</span>
+        </div>
         <div class="freq-items">
-          <div class="freq-item"><div class="task-info"><div class="task-name">Vacuum all floors</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe kitchen benches</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Water garden beds</div><div class="task-detail">Tue, Thu & Sat</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item" data-task-id="c1">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Vacuum all floors</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c3">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Wipe kitchen benches</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="g4">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Water garden beds</div><div class="task-detail">Tue, Thu & Sat</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
         </div>
       </div>
 
       <div class="freq-block freq-weekly">
-        <div class="freq-header">Weekly <span class="count">11 tasks</span></div>
+        <div class="freq-header">
+          Weekly
+          <span class="count">11 tasks</span>
+          <span class="done-count" id="done-weekly">— done</span>
+        </div>
         <div class="freq-items">
-          <div class="freq-item"><div class="task-info"><div class="task-name">Mop hard floors</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean stovetop</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean bathroom sink/mirror</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Scrub toilet</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Scrub shower/bath</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe down fridge exterior</div></div><span class="task-cat">Kitchen</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Water lawn</div><div class="task-detail">Wed & Sun</div></div><span class="task-cat">Garden</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Grocery shopping</div><div class="task-detail">Fri, Sat or Sun</div></div><span class="task-cat">Admin</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Check and restock supplies</div><div class="task-detail">Wed or Thu</div></div><span class="task-cat">Admin</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Review home management file</div></div><span class="task-cat">Admin</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Mow Kikuyu lawn</div><div class="task-detail">Summer only — fortnightly in winter</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item" data-task-id="c2">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Mop hard floors</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c4">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean stovetop</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c7">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean bathroom sink/mirror</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c8">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Scrub toilet</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c9">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Scrub shower/bath</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="k3">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Wipe down fridge exterior</div></div></div>
+            <span class="task-cat">Kitchen</span>
+          </div>
+          <div class="freq-item" data-task-id="g3">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Water lawn</div><div class="task-detail">Wed & Sun</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
+          <div class="freq-item" data-task-id="a1">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Grocery shopping</div><div class="task-detail">Fri, Sat or Sun</div></div></div>
+            <span class="task-cat">Admin</span>
+          </div>
+          <div class="freq-item" data-task-id="a2">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Check and restock supplies</div><div class="task-detail">Wed or Thu</div></div></div>
+            <span class="task-cat">Admin</span>
+          </div>
+          <div class="freq-item" data-task-id="a4">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Review home management file</div></div></div>
+            <span class="task-cat">Admin</span>
+          </div>
+          <div class="freq-item" data-task-id="g1">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Mow Kikuyu lawn</div><div class="task-detail">Summer only — fortnightly in winter</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
         </div>
       </div>
 
       <div class="freq-block freq-fortnight">
-        <div class="freq-header">Fortnightly <span class="count">7 tasks</span></div>
+        <div class="freq-header">
+          Fortnightly
+          <span class="count">7 tasks</span>
+          <span class="done-count" id="done-fortnight">— done</span>
+        </div>
         <div class="freq-items">
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean microwave</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean dishwasher</div></div><span class="task-cat">Kitchen</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean washing machine</div></div><span class="task-cat">Kitchen</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Edge lawn</div><div class="task-detail">Same day as mow</div></div><span class="task-cat">Garden</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Weed garden beds</div></div><span class="task-cat">Garden</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Sweep patio/outdoor areas</div></div><span class="task-cat">Garden</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Mow Kikuyu lawn</div><div class="task-detail">Winter only — weekly in summer</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item" data-task-id="c6">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean microwave</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="k_dishwasher">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean dishwasher</div></div></div>
+            <span class="task-cat">Kitchen</span>
+          </div>
+          <div class="freq-item" data-task-id="k_washer">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean washing machine</div></div></div>
+            <span class="task-cat">Kitchen</span>
+          </div>
+          <div class="freq-item" data-task-id="g2">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Edge lawn</div><div class="task-detail">Same day as mow</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
+          <div class="freq-item" data-task-id="g5">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Weed garden beds</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
+          <div class="freq-item" data-task-id="g6">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Sweep patio/outdoor areas</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
+          <div class="freq-item" data-task-id="g1_winter">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Mow Kikuyu lawn</div><div class="task-detail">Winter only — weekly in summer</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
         </div>
       </div>
 
       <div class="freq-block freq-monthly">
-        <div class="freq-header">Monthly <span class="count">7 tasks</span></div>
+        <div class="freq-header">
+          Monthly
+          <span class="count">7 tasks</span>
+          <span class="done-count" id="done-monthly">— done</span>
+        </div>
         <div class="freq-items">
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean oven interior</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Dust surfaces and shelves</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe windowsills</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean light switches/handles</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean fridge interior</div></div><span class="task-cat">Kitchen</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Descale kettle</div></div><span class="task-cat">Kitchen</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Clean outdoor furniture</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item" data-task-id="c5">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean oven interior</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c10">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Dust surfaces and shelves</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c12">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Wipe windowsills</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="c14">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean light switches/handles</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="k4">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean fridge interior</div></div></div>
+            <span class="task-cat">Kitchen</span>
+          </div>
+          <div class="freq-item" data-task-id="k7">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Descale kettle</div></div></div>
+            <span class="task-cat">Kitchen</span>
+          </div>
+          <div class="freq-item" data-task-id="g7">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Clean outdoor furniture</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
         </div>
       </div>
 
       <div class="freq-block freq-longer">
-        <div class="freq-header">Quarterly / Twice Yearly <span class="count">2 tasks</span></div>
+        <div class="freq-header">
+          Quarterly / Twice Yearly
+          <span class="count">3 tasks</span>
+          <span class="done-count" id="done-longer">— done</span>
+        </div>
         <div class="freq-items">
-          <div class="freq-item"><div class="task-info"><div class="task-name">Wash windows</div><div class="task-detail">Quarterly</div></div><span class="task-cat">Cleaning</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Wipe pantry shelves</div><div class="task-detail">Quarterly</div></div><span class="task-cat">Kitchen</span></div>
-          <div class="freq-item"><div class="task-info"><div class="task-name">Check and clean gutters</div><div class="task-detail">Twice yearly</div></div><span class="task-cat">Garden</span></div>
+          <div class="freq-item" data-task-id="c13">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Wash windows</div><div class="task-detail">Quarterly</div></div></div>
+            <span class="task-cat">Cleaning</span>
+          </div>
+          <div class="freq-item" data-task-id="k6">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Wipe pantry shelves</div><div class="task-detail">Quarterly</div></div></div>
+            <span class="task-cat">Kitchen</span>
+          </div>
+          <div class="freq-item" data-task-id="g8">
+            <div class="task-info"><div class="cdot"></div><div class="task-text"><div class="task-name">Check and clean gutters</div><div class="task-detail">Twice yearly</div></div></div>
+            <span class="task-cat">Garden</span>
+          </div>
         </div>
       </div>
 
@@ -391,76 +547,98 @@
     <div class="cat-grid">
 
       <div class="cat-block">
-        <div class="cat-header cat-cleaning">Cleaning — 13 tasks</div>
+        <div class="cat-header cat-cleaning">
+          <span>Cleaning — 13 tasks</span>
+          <span class="cat-progress" id="cat-prog-cleaning">— done</span>
+        </div>
         <table class="cat-table">
-          <tr><td>Vacuum all floors</td><td><span class="freq-tag tag-daily">Daily</span></td></tr>
-          <tr><td>Wipe kitchen benches</td><td><span class="freq-tag tag-daily">Daily</span></td></tr>
-          <tr><td>Mop hard floors</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
-          <tr><td>Clean stovetop</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
-          <tr><td>Clean bathroom sink/mirror</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
-          <tr><td>Scrub toilet</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
-          <tr><td>Scrub shower/bath</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
-          <tr><td>Clean microwave</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
-          <tr><td>Dust surfaces and shelves</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
-          <tr><td>Wipe windowsills</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
-          <tr><td>Clean light switches/handles</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
-          <tr><td>Clean oven interior</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
-          <tr><td>Wash windows</td><td><span class="freq-tag tag-longer">Quarterly</span></td></tr>
+          <tr data-task-id="c1"><td class="td-status"><div class="cdot"></div></td><td>Vacuum all floors</td><td><span class="freq-tag tag-daily">Daily</span></td></tr>
+          <tr data-task-id="c3"><td class="td-status"><div class="cdot"></div></td><td>Wipe kitchen benches</td><td><span class="freq-tag tag-daily">Daily</span></td></tr>
+          <tr data-task-id="c2"><td class="td-status"><div class="cdot"></div></td><td>Mop hard floors</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr data-task-id="c4"><td class="td-status"><div class="cdot"></div></td><td>Clean stovetop</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr data-task-id="c7"><td class="td-status"><div class="cdot"></div></td><td>Clean bathroom sink/mirror</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr data-task-id="c8"><td class="td-status"><div class="cdot"></div></td><td>Scrub toilet</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr data-task-id="c9"><td class="td-status"><div class="cdot"></div></td><td>Scrub shower/bath</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr data-task-id="c6"><td class="td-status"><div class="cdot"></div></td><td>Clean microwave</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr data-task-id="c5"><td class="td-status"><div class="cdot"></div></td><td>Clean oven interior</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr data-task-id="c10"><td class="td-status"><div class="cdot"></div></td><td>Dust surfaces and shelves</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr data-task-id="c12"><td class="td-status"><div class="cdot"></div></td><td>Wipe windowsills</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr data-task-id="c14"><td class="td-status"><div class="cdot"></div></td><td>Clean light switches/handles</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr data-task-id="c13"><td class="td-status"><div class="cdot"></div></td><td>Wash windows</td><td><span class="freq-tag tag-longer">Quarterly</span></td></tr>
         </table>
       </div>
 
       <div class="cat-block">
-        <div class="cat-header cat-kitchen">Kitchen — 6 tasks</div>
+        <div class="cat-header cat-kitchen">
+          <span>Kitchen — 6 tasks</span>
+          <span class="cat-progress" id="cat-prog-kitchen">— done</span>
+        </div>
         <table class="cat-table">
-          <tr><td>Wipe down fridge exterior</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
-          <tr><td>Clean dishwasher</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
-          <tr><td>Clean washing machine</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
-          <tr><td>Clean fridge interior</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
-          <tr><td>Descale kettle</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
-          <tr><td>Wipe pantry shelves</td><td><span class="freq-tag tag-longer">Quarterly</span></td></tr>
+          <tr data-task-id="k3"><td class="td-status"><div class="cdot"></div></td><td>Wipe down fridge exterior</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr data-task-id="k_dishwasher"><td class="td-status"><div class="cdot"></div></td><td>Clean dishwasher</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr data-task-id="k_washer"><td class="td-status"><div class="cdot"></div></td><td>Clean washing machine</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr data-task-id="k4"><td class="td-status"><div class="cdot"></div></td><td>Clean fridge interior</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr data-task-id="k7"><td class="td-status"><div class="cdot"></div></td><td>Descale kettle</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr data-task-id="k6"><td class="td-status"><div class="cdot"></div></td><td>Wipe pantry shelves</td><td><span class="freq-tag tag-longer">Quarterly</span></td></tr>
         </table>
       </div>
 
       <div class="cat-block">
-        <div class="cat-header cat-garden">Garden & Outdoor — 8 tasks</div>
+        <div class="cat-header cat-garden">
+          <span>Garden & Outdoor — 8 tasks</span>
+          <span class="cat-progress" id="cat-prog-garden">— done</span>
+        </div>
         <table class="cat-table">
-          <tr><td>Water garden beds</td><td><span class="freq-tag tag-daily">Tue, Thu & Sat</span></td></tr>
-          <tr><td>Water lawn</td><td><span class="freq-tag tag-weekly">Wed & Sun</span></td></tr>
-          <tr><td>Mow Kikuyu lawn</td><td><span class="freq-tag tag-weekly">Wkly/Fortn</span></td></tr>
-          <tr><td>Edge lawn</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
-          <tr><td>Weed garden beds</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
-          <tr><td>Sweep patio/outdoor areas</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
-          <tr><td>Clean outdoor furniture</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
-          <tr><td>Check and clean gutters</td><td><span class="freq-tag tag-longer">Twice yearly</span></td></tr>
+          <tr data-task-id="g4"><td class="td-status"><div class="cdot"></div></td><td>Water garden beds</td><td><span class="freq-tag tag-daily">Tue, Thu & Sat</span></td></tr>
+          <tr data-task-id="g3"><td class="td-status"><div class="cdot"></div></td><td>Water lawn</td><td><span class="freq-tag tag-weekly">Wed & Sun</span></td></tr>
+          <tr data-task-id="g1"><td class="td-status"><div class="cdot"></div></td><td>Mow Kikuyu lawn</td><td><span class="freq-tag tag-weekly">Wkly/Fortn</span></td></tr>
+          <tr data-task-id="g2"><td class="td-status"><div class="cdot"></div></td><td>Edge lawn</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr data-task-id="g5"><td class="td-status"><div class="cdot"></div></td><td>Weed garden beds</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr data-task-id="g6"><td class="td-status"><div class="cdot"></div></td><td>Sweep patio/outdoor areas</td><td><span class="freq-tag tag-fortnight">Fortnightly</span></td></tr>
+          <tr data-task-id="g7"><td class="td-status"><div class="cdot"></div></td><td>Clean outdoor furniture</td><td><span class="freq-tag tag-monthly">Monthly</span></td></tr>
+          <tr data-task-id="g8"><td class="td-status"><div class="cdot"></div></td><td>Check and clean gutters</td><td><span class="freq-tag tag-longer">Twice yearly</span></td></tr>
         </table>
       </div>
 
       <div class="cat-block">
-        <div class="cat-header cat-admin">Admin & Household — 3 tasks</div>
+        <div class="cat-header cat-admin">
+          <span>Admin & Household — 3 tasks</span>
+          <span class="cat-progress" id="cat-prog-admin">— done</span>
+        </div>
         <table class="cat-table">
-          <tr><td>Check and restock supplies</td><td><span class="freq-tag tag-weekly">Wed or Thu</span></td></tr>
-          <tr><td>Grocery shopping</td><td><span class="freq-tag tag-weekly">Fri, Sat or Sun</span></td></tr>
-          <tr><td>Review home management file</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
+          <tr data-task-id="a2"><td class="td-status"><div class="cdot"></div></td><td>Check and restock supplies</td><td><span class="freq-tag tag-weekly">Wed or Thu</span></td></tr>
+          <tr data-task-id="a1"><td class="td-status"><div class="cdot"></div></td><td>Grocery shopping</td><td><span class="freq-tag tag-weekly">Fri, Sat or Sun</span></td></tr>
+          <tr data-task-id="a4"><td class="td-status"><div class="cdot"></div></td><td>Review home management file</td><td><span class="freq-tag tag-weekly">Weekly</span></td></tr>
         </table>
       </div>
 
     </div>
   </div>
 
+  <!-- Panel: Completion -->
+  <div class="panel" id="panel-completion">
+    <div class="comp-summary">
+      <div class="comp-stat"><div class="cs-num cs-total" id="cs-done">—</div><div class="cs-label">Tasks Done</div></div>
+      <div class="comp-stat"><div class="cs-num cs-remain" id="cs-remain">—</div><div class="cs-label">Remaining</div></div>
+      <div class="comp-stat"><div class="cs-num cs-graeme" id="cs-graeme">—</div><div class="cs-label">Done by Graeme</div></div>
+      <div class="comp-stat"><div class="cs-num cs-emily" id="cs-emily">—</div><div class="cs-label">Done by Emily</div></div>
+    </div>
+    <div class="completion-grid" id="completionGrid"></div>
+  </div>
+
   <!-- Panel: Weekly Schedule -->
   <div class="panel" id="panel-schedule">
     <div class="schedule-grid" id="scheduleGrid"></div>
-
     <div class="watering-card">
       <h3>Watering Schedule (Perth Council Restrictions)</h3>
       <div class="watering-grid">
-        <div class="watering-item"><strong>Monday</strong><span>No watering</span></div>
-        <div class="watering-item" style="background:#eafaf1;border-color:#a9dfbf"><strong>Tuesday</strong><span>Garden beds</span></div>
-        <div class="watering-item" style="background:#eaf4fb;border-color:#a9cce3"><strong>Wednesday</strong><span>Lawn</span></div>
-        <div class="watering-item" style="background:#eafaf1;border-color:#a9dfbf"><strong>Thursday</strong><span>Garden beds</span></div>
-        <div class="watering-item"><strong>Friday</strong><span>No watering</span></div>
-        <div class="watering-item" style="background:#eafaf1;border-color:#a9dfbf"><strong>Saturday</strong><span>Garden beds</span></div>
-        <div class="watering-item" style="background:#eaf4fb;border-color:#a9cce3"><strong>Sunday</strong><span>Lawn</span></div>
+        <div class="watering-item" id="wat-mon"><strong>Monday</strong><span>No watering</span></div>
+        <div class="watering-item active-water" id="wat-tue"><strong>Tuesday</strong><span>Garden beds</span></div>
+        <div class="watering-item active-lawn" id="wat-wed"><strong>Wednesday</strong><span>Lawn</span></div>
+        <div class="watering-item active-water" id="wat-thu"><strong>Thursday</strong><span>Garden beds</span></div>
+        <div class="watering-item" id="wat-fri"><strong>Friday</strong><span>No watering</span></div>
+        <div class="watering-item active-water" id="wat-sat"><strong>Saturday</strong><span>Garden beds</span></div>
+        <div class="watering-item active-lawn" id="wat-sun"><strong>Sunday</strong><span>Lawn</span></div>
       </div>
     </div>
   </div>
@@ -469,55 +647,198 @@
   <div class="panel" id="panel-seasonal">
     <div class="section-title">Perth Climate — Seasonal Task Adjustments</div>
     <div class="seasonal-grid">
-      <div class="season-card">
-        <div class="season-header summer">Summer — Dec to Feb</div>
-        <div class="season-body">
-          <div class="season-months">Currently active: No</div>
-          Mow lawn weekly. Water early morning only. Increase dust cleaning frequency. Check ceiling fans and air vents. 40°C+ days — avoid outdoor tasks; reschedule to early morning.
-        </div>
-      </div>
-      <div class="season-card">
-        <div class="season-header autumn">Autumn — Mar to May</div>
-        <div class="season-body">
-          <div class="season-months">Currently active: Yes</div>
-          Wind increases leaf and debris buildup — sweep patio more often. Gutter check recommended before end of season. Begin reducing lawn watering as temps drop.
-        </div>
-      </div>
-      <div class="season-card">
-        <div class="season-header winter">Winter — Jun to Aug</div>
-        <div class="season-body">
-          <div class="season-months">Currently active: No</div>
-          Reduce lawn mowing to fortnightly. Increase indoor cleaning focus. Check bathrooms and wet areas for mould. Review garden bed drainage.
-        </div>
-      </div>
-      <div class="season-card">
-        <div class="season-header spring">Spring — Sep to Nov</div>
-        <div class="season-body">
-          <div class="season-months">Currently active: No</div>
-          Resume weekly mowing schedule. Weed surge in garden beds — increase weeding cadence. Pest check recommended (ants, spiders). Refresh outdoor furniture.
-        </div>
-      </div>
+      <div class="season-card"><div class="season-header summer">Summer — Dec to Feb</div><div class="season-body"><div class="season-months" id="sm-summer"></div>Mow lawn weekly. Water early morning only. Increase dust cleaning frequency. Check ceiling fans and air vents. 40°C+ days — avoid outdoor tasks; reschedule to early morning.</div></div>
+      <div class="season-card"><div class="season-header autumn">Autumn — Mar to May</div><div class="season-body"><div class="season-months" id="sm-autumn"></div>Wind increases leaf and debris buildup — sweep patio more often. Gutter check recommended before end of season. Begin reducing lawn watering as temps drop.</div></div>
+      <div class="season-card"><div class="season-header winter">Winter — Jun to Aug</div><div class="season-body"><div class="season-months" id="sm-winter"></div>Reduce lawn mowing to fortnightly. Increase indoor cleaning focus. Check bathrooms and wet areas for mould. Review garden bed drainage.</div></div>
+      <div class="season-card"><div class="season-header spring">Spring — Sep to Nov</div><div class="season-body"><div class="season-months" id="sm-spring"></div>Resume weekly mowing schedule. Weed surge in garden beds — increase weeding cadence. Pest check recommended (ants, spiders). Refresh outdoor furniture.</div></div>
     </div>
   </div>
 
 </div>
 
 <script>
-  // Set header date
-  const now = new Date();
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('headerDate').innerHTML =
-    now.toLocaleDateString('en-AU', options) + '<br><span style="font-size:0.75rem;opacity:0.6">Perth, Western Australia</span>';
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function getCompletions() {
+    try { return JSON.parse(localStorage.getItem("dp_completed") || "{}"); } catch { return {}; }
+  }
 
-  // Tab switching
-  function showTab(name) {
+  function isDone(completions, id) {
+    return completions[id] === "graeme" || completions[id] === "emily";
+  }
+
+  // ── Tab switching ─────────────────────────────────────────────────────────
+  function showTab(name, el) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    event.target.classList.add('active');
+    el.classList.add('active');
     document.getElementById('panel-' + name).classList.add('active');
   }
 
-  // Weekly schedule data
+  // ── All tracked task IDs (matches index.html task ids + new ones) ─────────
+  const ALL_TASKS = [
+    // Cleaning
+    { id: "c1",  name: "Vacuum all floors",            cat: "cleaning", freq: "daily" },
+    { id: "c2",  name: "Mop hard floors",              cat: "cleaning", freq: "weekly" },
+    { id: "c3",  name: "Wipe kitchen benches",         cat: "cleaning", freq: "daily" },
+    { id: "c4",  name: "Clean stovetop",               cat: "cleaning", freq: "weekly" },
+    { id: "c5",  name: "Clean oven interior",          cat: "cleaning", freq: "monthly" },
+    { id: "c6",  name: "Clean microwave",              cat: "cleaning", freq: "fortnight" },
+    { id: "c7",  name: "Clean bathroom sink/mirror",   cat: "cleaning", freq: "weekly" },
+    { id: "c8",  name: "Scrub toilet",                 cat: "cleaning", freq: "weekly" },
+    { id: "c9",  name: "Scrub shower/bath",            cat: "cleaning", freq: "weekly" },
+    { id: "c10", name: "Dust surfaces and shelves",    cat: "cleaning", freq: "monthly" },
+    { id: "c12", name: "Wipe windowsills",             cat: "cleaning", freq: "monthly" },
+    { id: "c13", name: "Wash windows",                 cat: "cleaning", freq: "longer" },
+    { id: "c14", name: "Clean light switches/handles", cat: "cleaning", freq: "monthly" },
+    // Kitchen
+    { id: "k3",          name: "Wipe down fridge exterior", cat: "kitchen", freq: "weekly" },
+    { id: "k_dishwasher",name: "Clean dishwasher",          cat: "kitchen", freq: "fortnight" },
+    { id: "k_washer",    name: "Clean washing machine",     cat: "kitchen", freq: "fortnight" },
+    { id: "k4",          name: "Clean fridge interior",     cat: "kitchen", freq: "monthly" },
+    { id: "k6",          name: "Wipe pantry shelves",       cat: "kitchen", freq: "longer" },
+    { id: "k7",          name: "Descale kettle",            cat: "kitchen", freq: "monthly" },
+    // Garden
+    { id: "g1",  name: "Mow Kikuyu lawn",           cat: "garden", freq: "weekly" },
+    { id: "g2",  name: "Edge lawn",                  cat: "garden", freq: "fortnight" },
+    { id: "g3",  name: "Water lawn",                 cat: "garden", freq: "weekly" },
+    { id: "g4",  name: "Water garden beds",          cat: "garden", freq: "daily" },
+    { id: "g5",  name: "Weed garden beds",           cat: "garden", freq: "fortnight" },
+    { id: "g6",  name: "Sweep patio/outdoor areas",  cat: "garden", freq: "fortnight" },
+    { id: "g7",  name: "Clean outdoor furniture",    cat: "garden", freq: "monthly" },
+    { id: "g8",  name: "Check and clean gutters",    cat: "garden", freq: "longer" },
+    // Admin
+    { id: "a1", name: "Grocery shopping",             cat: "admin", freq: "weekly" },
+    { id: "a2", name: "Check and restock supplies",   cat: "admin", freq: "weekly" },
+    { id: "a4", name: "Review home management file",  cat: "admin", freq: "weekly" },
+  ];
+
+  const FREQ_GROUPS = {
+    daily:     ALL_TASKS.filter(t => t.freq === "daily"),
+    weekly:    ALL_TASKS.filter(t => t.freq === "weekly"),
+    fortnight: ALL_TASKS.filter(t => t.freq === "fortnight"),
+    monthly:   ALL_TASKS.filter(t => t.freq === "monthly"),
+    longer:    ALL_TASKS.filter(t => t.freq === "longer"),
+  };
+  const CAT_GROUPS = {
+    cleaning: ALL_TASKS.filter(t => t.cat === "cleaning"),
+    kitchen:  ALL_TASKS.filter(t => t.cat === "kitchen"),
+    garden:   ALL_TASKS.filter(t => t.cat === "garden"),
+    admin:    ALL_TASKS.filter(t => t.cat === "admin"),
+  };
+
+  // ── Apply completions to the DOM ──────────────────────────────────────────
+  function applyCompletions() {
+    const c = getCompletions();
+    const totalTasks = ALL_TASKS.length;
+    let totalDone = 0, graemeDone = 0, emilyDone = 0;
+
+    // Update every element with data-task-id (freq-item or cat-table tr)
+    document.querySelectorAll('[data-task-id]').forEach(el => {
+      const id  = el.dataset.taskId;
+      const who = c[id] || null;
+      const done = who === "graeme" || who === "emily";
+
+      // Dot
+      const dot = el.querySelector('.cdot');
+      if (dot) {
+        dot.className = 'cdot' + (done ? (who === 'graeme' ? ' done-graeme' : ' done-emily') : '');
+        dot.title = done ? `Done by ${who}` : 'Not done';
+      }
+
+      // Strike-through (freq-item uses .task-row-done on the element itself,
+      // cat-table tr uses the same class on the row)
+      el.classList.toggle('task-row-done', done);
+    });
+
+    // Count by freq group
+    Object.entries(FREQ_GROUPS).forEach(([freq, tasks]) => {
+      const done = tasks.filter(t => isDone(c, t.id)).length;
+      const el = document.getElementById('done-' + freq);
+      if (el) el.textContent = `${done}/${tasks.length} done`;
+    });
+
+    // Count by cat group
+    Object.entries(CAT_GROUPS).forEach(([cat, tasks]) => {
+      const done = tasks.filter(t => isDone(c, t.id)).length;
+      const el = document.getElementById('cat-prog-' + cat);
+      if (el) el.textContent = `${done}/${tasks.length} done`;
+    });
+
+    // Global totals
+    ALL_TASKS.forEach(t => {
+      if (c[t.id] === 'graeme') { totalDone++; graemeDone++; }
+      else if (c[t.id] === 'emily') { totalDone++; emilyDone++; }
+    });
+
+    const pct = Math.round((totalDone / totalTasks) * 100);
+    document.getElementById('globalProgressFill').style.width = pct + '%';
+    document.getElementById('globalProgressLabel').textContent = `${totalDone} of ${totalTasks} tasks done (${pct}%)`;
+
+    // Summary cards
+    document.getElementById('cardDoneCount').textContent = totalDone;
+    const remain = totalTasks - totalDone;
+    document.getElementById('cardDoneSub').textContent   = pct + '% complete';
+    document.getElementById('cardRemainSub').textContent = remain + ' remaining';
+
+    const dailyDone = FREQ_GROUPS.daily.filter(t => isDone(c, t.id)).length;
+    const weekDone  = FREQ_GROUPS.weekly.filter(t => isDone(c, t.id)).length;
+    const fnDone    = FREQ_GROUPS.fortnight.filter(t => isDone(c, t.id)).length;
+    document.getElementById('cardDailySub').textContent     = `${dailyDone}/${FREQ_GROUPS.daily.length} done`;
+    document.getElementById('cardWeeklySub').textContent    = `${weekDone}/${FREQ_GROUPS.weekly.length} done`;
+    document.getElementById('cardFortnightSub').textContent = `${fnDone}/${FREQ_GROUPS.fortnight.length} done`;
+
+    // Completion panel
+    document.getElementById('cs-done').textContent   = totalDone;
+    document.getElementById('cs-remain').textContent = remain;
+    document.getElementById('cs-graeme').textContent = graemeDone;
+    document.getElementById('cs-emily').textContent  = emilyDone;
+    buildCompletionPanel(c);
+  }
+
+  // ── Completion panel ──────────────────────────────────────────────────────
+  function buildCompletionPanel(c) {
+    const grid = document.getElementById('completionGrid');
+    grid.innerHTML = '';
+
+    const catMeta = [
+      { key: 'cleaning', label: 'Cleaning',            cls: 'cat-cleaning' },
+      { key: 'kitchen',  label: 'Kitchen',              cls: 'cat-kitchen' },
+      { key: 'garden',   label: 'Garden & Outdoor',     cls: 'cat-garden' },
+      { key: 'admin',    label: 'Admin & Household',    cls: 'cat-admin' },
+    ];
+
+    catMeta.forEach(({ key, label, cls }) => {
+      const tasks = CAT_GROUPS[key];
+      const doneCount = tasks.filter(t => isDone(c, t.id)).length;
+      const card = document.createElement('div');
+      card.className = 'comp-card';
+      card.innerHTML = `
+        <div class="comp-card-header ${cls}">
+          <span>${label}</span>
+          <span>${doneCount} / ${tasks.length}</span>
+        </div>
+        <div class="comp-card-body">
+          ${tasks.map(t => {
+            const who = c[t.id] || null;
+            const done = who === 'graeme' || who === 'emily';
+            const byClass = who ? `by-${who}` : 'by-none';
+            const byLabel = who ? who.charAt(0).toUpperCase() + who.slice(1) : 'Not done';
+            return `<div class="comp-row">
+              <div class="cdot ${done ? (who === 'graeme' ? 'done-graeme' : 'done-emily') : ''}"></div>
+              <span class="cr-name ${done ? 'done' : ''}">${t.name}</span>
+              <span class="cr-by ${byClass}">${byLabel}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // ── Weekly schedule ───────────────────────────────────────────────────────
+  const now      = new Date();
+  const todayName = now.toLocaleDateString('en-AU', { weekday: 'long' });
+
   const schedule = [
     { day: 'Monday',    tasks: ['Vacuum all floors', 'Wipe kitchen benches'] },
     { day: 'Tuesday',   tasks: ['Water garden beds', 'Wipe kitchen benches', 'Vacuum all floors'] },
@@ -528,9 +849,7 @@
     { day: 'Sunday',    tasks: ['Water lawn', 'Review home management file', 'Flexible / catch-up / rest', 'Wipe kitchen benches', 'Vacuum all floors'] },
   ];
 
-  const todayName = now.toLocaleDateString('en-AU', { weekday: 'long' });
-  const grid = document.getElementById('scheduleGrid');
-
+  const sgrid = document.getElementById('scheduleGrid');
   schedule.forEach(({ day, tasks }) => {
     const isToday = day === todayName;
     const card = document.createElement('div');
@@ -542,10 +861,30 @@
       </div>
       <div class="day-tasks">
         ${tasks.map(t => `<div class="day-task">${t}</div>`).join('')}
-      </div>
-    `;
-    grid.appendChild(card);
+      </div>`;
+    sgrid.appendChild(card);
   });
+
+  // ── Header date ───────────────────────────────────────────────────────────
+  document.getElementById('headerDate').innerHTML =
+    now.toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) +
+    '<br><span style="font-size:0.75rem;opacity:0.6">Perth, Western Australia</span>';
+
+  // ── Seasonal active labels ────────────────────────────────────────────────
+  const month = now.getMonth() + 1;
+  const season = month === 12 || month <= 2 ? 'summer' : month <= 5 ? 'autumn' : month <= 8 ? 'winter' : 'spring';
+  ['summer','autumn','winter','spring'].forEach(s => {
+    const el = document.getElementById('sm-' + s);
+    if (el) el.textContent = s === season ? 'Currently active' : 'Not currently active';
+  });
+
+  // ── Listen for storage changes from index.html ────────────────────────────
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'dp_completed') applyCompletions();
+  });
+
+  // ── Initial render ────────────────────────────────────────────────────────
+  applyCompletions();
 </script>
 </body>
 </html>
