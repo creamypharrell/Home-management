@@ -45,7 +45,7 @@
 
     /* ── Content cards ── */
     .card     { border-radius: 12px; padding: 20px 22px; }
-    .row-item { display: flex; gap: 12px; padding: 12px 14px; border-radius: 8px; align-items: flex-start; }
+    .row-item { display: flex; gap: 12px; padding: 12px 14px; border-radius: 8px; align-items: center; }
 
     /* ── Sidebar layout switching ── */
     .step-strip   { display: none; }
@@ -64,6 +64,8 @@
       .card        { padding: 14px 16px; }
       .tab-btn     { font-size: 12px; padding: 10px 2px; }
       .dark-btn    { padding: 8px 12px; font-size: 13px; }
+      .person-col  { width: 52px !important; }
+      .person-label { font-size: 10px !important; }
     }
   </style>
 </head>
@@ -78,20 +80,20 @@
         id: "cleaning", title: "Cleaning", icon: "🧹",
         color: "#EFF6FF", accent: "#3B82F6",
         tasks: [
-          { id: "c1",  name: "Vacuum all floors",           freq: "Daily",       notes: "Focus on high-traffic areas; do before mopping" },
-          { id: "c2",  name: "Mop hard floors",             freq: "Weekly",      notes: "After vacuuming; use appropriate cleaner per floor" },
-          { id: "c3",  name: "Wipe kitchen benches",        freq: "Daily",       notes: "After cooking; prevents grease and ant attraction" },
-          { id: "c4",  name: "Clean stovetop",              freq: "Weekly",      notes: "Grease builds quickly in Perth heat" },
-          { id: "c5",  name: "Clean oven interior",         freq: "Monthly",     notes: "Log product used and soak time" },
-          { id: "c6",  name: "Clean microwave",             freq: "Weekly",      notes: "Wipe interior and exterior" },
-          { id: "c7",  name: "Clean bathroom sink/mirror",  freq: "Weekly",      notes: "Limescale common due to Perth hard water" },
-          { id: "c8",  name: "Scrub toilet",                freq: "Weekly",      notes: "Inside bowl and exterior" },
-          { id: "c9",  name: "Scrub shower/bath",           freq: "Weekly",      notes: "Perth hard water causes quick soap scum buildup" },
-          { id: "c10", name: "Dust surfaces and shelves",   freq: "Weekly",      notes: "Perth dust is significant — check fans and blinds" },
-          { id: "c11", name: "Clean ceiling fans",          freq: "Monthly",     notes: "Dust accumulates rapidly; affects air quality" },
-          { id: "c12", name: "Wipe windowsills",            freq: "Fortnightly", notes: "Inside and outside if accessible" },
-          { id: "c13", name: "Wash windows",                freq: "Quarterly",   notes: "Interior priority; exterior after rain or dust" },
-          { id: "c14", name: "Clean light switches/handles",freq: "Monthly",     notes: "High-touch surfaces; hygiene important" },
+          { id: "c1",  name: "Vacuum all floors",            freq: "Daily",       notes: "Focus on high-traffic areas; do before mopping" },
+          { id: "c2",  name: "Mop hard floors",              freq: "Weekly",      notes: "After vacuuming; use appropriate cleaner per floor" },
+          { id: "c3",  name: "Wipe kitchen benches",         freq: "Daily",       notes: "After cooking; prevents grease and ant attraction" },
+          { id: "c4",  name: "Clean stovetop",               freq: "Weekly",      notes: "Grease builds quickly in Perth heat" },
+          { id: "c5",  name: "Clean oven interior",          freq: "Monthly",     notes: "Log product used and soak time" },
+          { id: "c6",  name: "Clean microwave",              freq: "Weekly",      notes: "Wipe interior and exterior" },
+          { id: "c7",  name: "Clean bathroom sink/mirror",   freq: "Weekly",      notes: "Limescale common due to Perth hard water" },
+          { id: "c8",  name: "Scrub toilet",                 freq: "Weekly",      notes: "Inside bowl and exterior" },
+          { id: "c9",  name: "Scrub shower/bath",            freq: "Weekly",      notes: "Perth hard water causes quick soap scum buildup" },
+          { id: "c10", name: "Dust surfaces and shelves",    freq: "Weekly",      notes: "Perth dust is significant — check fans and blinds" },
+          { id: "c11", name: "Clean ceiling fans",           freq: "Monthly",     notes: "Dust accumulates rapidly; affects air quality" },
+          { id: "c12", name: "Wipe windowsills",             freq: "Fortnightly", notes: "Inside and outside if accessible" },
+          { id: "c13", name: "Wash windows",                 freq: "Quarterly",   notes: "Interior priority; exterior after rain or dust" },
+          { id: "c14", name: "Clean light switches/handles", freq: "Monthly",     notes: "High-touch surfaces; hygiene important" },
         ]
       },
       {
@@ -110,34 +112,34 @@
         id: "kitchen", title: "Kitchen", icon: "🍽️",
         color: "#FFF7ED", accent: "#F97316",
         tasks: [
-          { id: "k1", name: "Wash dishes / run dishwasher", freq: "Daily",   notes: "Don't leave overnight — attracts pests" },
-          { id: "k2", name: "Empty dishwasher",             freq: "Daily",   notes: "Do in morning to keep sink clear" },
-          { id: "k3", name: "Wipe down fridge exterior",    freq: "Weekly",  notes: "Check handle and top for dust" },
-          { id: "k4", name: "Clean fridge interior",        freq: "Monthly", notes: "Remove expired items; wipe shelves" },
+          { id: "k1", name: "Wash dishes / run dishwasher", freq: "Daily",     notes: "Don't leave overnight — attracts pests" },
+          { id: "k2", name: "Empty dishwasher",             freq: "Daily",     notes: "Do in morning to keep sink clear" },
+          { id: "k3", name: "Wipe down fridge exterior",    freq: "Weekly",    notes: "Check handle and top for dust" },
+          { id: "k4", name: "Clean fridge interior",        freq: "Monthly",   notes: "Remove expired items; wipe shelves" },
           { id: "k5", name: "Take out rubbish",             freq: "2–3x/week", notes: "Check bin day schedule; note council collection" },
-          { id: "k6", name: "Wipe pantry shelves",          freq: "Monthly", notes: "Check for expired items and pests" },
-          { id: "k7", name: "Descale kettle",               freq: "Monthly", notes: "Perth hard water causes rapid scale buildup" },
+          { id: "k6", name: "Wipe pantry shelves",          freq: "Monthly",   notes: "Check for expired items and pests" },
+          { id: "k7", name: "Descale kettle",               freq: "Monthly",   notes: "Perth hard water causes rapid scale buildup" },
         ]
       },
       {
         id: "garden", title: "Garden", icon: "🌿",
         color: "#F0FDF4", accent: "#22C55E",
         tasks: [
-          { id: "g1", name: "Mow Kikuyu lawn",          freq: "Weekly (summer) / Fortnightly (winter)", notes: "Kikuyu grows aggressively in summer; log height cut" },
-          { id: "g2", name: "Edge lawn",                 freq: "Same as mow",         notes: "Keep borders clean; Kikuyu spreads into garden beds" },
-          { id: "g3", name: "Water lawn",                freq: "Per council schedule", notes: "Check Perth council watering restrictions" },
-          { id: "g4", name: "Water garden beds",         freq: "Per council schedule", notes: "Adjust for season; garden plants need more than Kikuyu" },
-          { id: "g5", name: "Weed garden beds",          freq: "Fortnightly",          notes: "Kikuyu runners invade beds; pull early" },
-          { id: "g6", name: "Sweep patio/outdoor areas", freq: "Weekly",               notes: "Leaves and dust accumulate quickly in Perth wind" },
-          { id: "g7", name: "Clean outdoor furniture",   freq: "Monthly",              notes: "UV and dust damage; cover when not in use" },
-          { id: "g8", name: "Check and clean gutters",   freq: "Quarterly",            notes: "Especially before and after summer storms" },
+          { id: "g1", name: "Mow Kikuyu lawn",           freq: "Weekly (summer) / Fortnightly (winter)", notes: "Kikuyu grows aggressively in summer; log height cut" },
+          { id: "g2", name: "Edge lawn",                  freq: "Same as mow",          notes: "Keep borders clean; Kikuyu spreads into garden beds" },
+          { id: "g3", name: "Water lawn",                 freq: "Per council schedule", notes: "Check Perth council watering restrictions" },
+          { id: "g4", name: "Water garden beds",          freq: "Per council schedule", notes: "Adjust for season; garden plants need more than Kikuyu" },
+          { id: "g5", name: "Weed garden beds",           freq: "Fortnightly",          notes: "Kikuyu runners invade beds; pull early" },
+          { id: "g6", name: "Sweep patio/outdoor areas",  freq: "Weekly",               notes: "Leaves and dust accumulate quickly in Perth wind" },
+          { id: "g7", name: "Clean outdoor furniture",    freq: "Monthly",              notes: "UV and dust damage; cover when not in use" },
+          { id: "g8", name: "Check and clean gutters",    freq: "Quarterly",            notes: "Especially before and after summer storms" },
         ]
       },
       {
         id: "admin", title: "Admin", icon: "📋",
         color: "#FFF1F2", accent: "#F43F5E",
         tasks: [
-          { id: "a1", name: "Grocery shopping",           freq: "Weekly",  notes: "Maintain a running list; note substitutes" },
+          { id: "a1", name: "Grocery shopping",            freq: "Weekly",  notes: "Maintain a running list; note substitutes" },
           { id: "a2", name: "Check and restock supplies",  freq: "Weekly",  notes: "Cleaning products, paper goods, pantry staples" },
           { id: "a3", name: "Pay household bills",         freq: "Monthly", notes: "Log due dates; set reminders" },
           { id: "a4", name: "Review home management file", freq: "Monthly", notes: "Update tasks and log; propose changes" },
@@ -145,7 +147,7 @@
       },
     ];
 
-    // ── Weekly schedule from home_management.md ──
+    // ── Weekly schedule ──
     const weeklySchedule = [
       { day: "Monday",    tasks: ["Vacuum all floors", "Laundry load", "Wipe kitchen benches"] },
       { day: "Tuesday",   tasks: ["Mop floors", "Fold/put away laundry", "Empty bins"] },
@@ -176,18 +178,23 @@
       return new Date().toLocaleDateString("en-AU", { weekday: "long" });
     }
 
+    // ── A task is "done" if either person has checked it ──
+    function isDone(completed, id) {
+      return completed[id] === "graeme" || completed[id] === "emily";
+    }
+
     // ── Frequency badge colours ──
     const freqColors = {
-      "Daily":                  { bg: "#FEF3C7", text: "#92400E" },
-      "Weekly":                 { bg: "#EFF6FF", text: "#1D4ED8" },
-      "Fortnightly":            { bg: "#F0FDF4", text: "#15803D" },
-      "Monthly":                { bg: "#F5F3FF", text: "#6D28D9" },
-      "Quarterly":              { bg: "#FFF1F2", text: "#BE123C" },
-      "2–3x/week":              { bg: "#FFF7ED", text: "#C2410C" },
-      "Same day":               { bg: "#FEF9C3", text: "#92400E" },
-      "Same as mow":            { bg: "#F0FDF4", text: "#15803D" },
-      "Per council schedule":   { bg: "#F0F9FF", text: "#0369A1" },
-      "Weekly (summer)":        { bg: "#EFF6FF", text: "#1D4ED8" },
+      "Daily":                { bg: "#FEF3C7", text: "#92400E" },
+      "Weekly":               { bg: "#EFF6FF", text: "#1D4ED8" },
+      "Fortnightly":          { bg: "#F0FDF4", text: "#15803D" },
+      "Monthly":              { bg: "#F5F3FF", text: "#6D28D9" },
+      "Quarterly":            { bg: "#FFF1F2", text: "#BE123C" },
+      "2–3x/week":            { bg: "#FFF7ED", text: "#C2410C" },
+      "Same day":             { bg: "#FEF9C3", text: "#92400E" },
+      "Same as mow":          { bg: "#F0FDF4", text: "#15803D" },
+      "Per council schedule": { bg: "#F0F9FF", text: "#0369A1" },
+      "Weekly (summer)":      { bg: "#EFF6FF", text: "#1D4ED8" },
     };
 
     const FreqBadge = ({ freq }) => {
@@ -198,19 +205,36 @@
       );
     };
 
-    const CheckIcon = ({ done }) => (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style={{ flexShrink: 0, cursor: "pointer" }}>
-        <circle cx="11" cy="11" r="11" fill={done ? "#22C55E" : "#E5E7EB"} />
-        {done && <path d="M6 11.5L9.5 15L16 8" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />}
-      </svg>
-    );
+    // ── Per-person checkbox ──
+    // checked  = this person has ticked this task
+    // greyed   = the OTHER person has ticked this task, so this one is locked out
+    const PersonCheck = ({ checked, greyed, onClick, accent, dark }) => {
+      const baseCircle = dark ? "#334155" : "#E5E7EB";
+      if (greyed) {
+        return (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+            style={{ cursor: "not-allowed", opacity: 0.3, display: "block" }}>
+            <circle cx="12" cy="12" r="12" fill={baseCircle} />
+          </svg>
+        );
+      }
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+          onClick={onClick}
+          style={{ cursor: "pointer", display: "block", transition: "opacity 0.15s" }}>
+          <circle cx="12" cy="12" r="12" fill={checked ? accent : baseCircle} />
+          {checked && <path d="M7 12.5L10.5 16L17 9" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />}
+        </svg>
+      );
+    };
 
     function App() {
-      const [activeCat, setActiveCat]   = useState(0);
-      const [activeTab, setActiveTab]   = useState("tasks");
-      const [animating, setAnimating]   = useState(false);
+      const [activeCat, setActiveCat] = useState(0);
+      const [activeTab, setActiveTab] = useState("tasks");
+      const [animating, setAnimating]  = useState(false);
 
-      // Persistent state via localStorage
+      // completed[taskId] = "graeme" | "emily" | null
+      // A task is done when either person checks it; checking it again unchecks it.
       const [completed, setCompleted] = useState(() => {
         try { return JSON.parse(localStorage.getItem("dp_completed") || "{}"); } catch { return {}; }
       });
@@ -231,18 +255,28 @@
       useEffect(() => { localStorage.setItem("dp_notes",     JSON.stringify(notes));     }, [notes]);
       useEffect(() => { localStorage.setItem("dp_dark",      darkMode);                  }, [darkMode]);
 
-      const season    = getSeason();
-      const todayName = getTodayName();
+      // Toggle: clicking your own checked box unchecks; clicking when other person owns it → no-op
+      const toggleComplete = (id, person) => {
+        setCompleted(prev => {
+          const current = prev[id];
+          if (current === person) return { ...prev, [id]: null };   // uncheck
+          if (current && current !== person) return prev;            // locked — other person owns it
+          return { ...prev, [id]: person };                          // check
+        });
+      };
+
+      const season     = getSeason();
+      const todayName  = getTodayName();
       const todaySched = weeklySchedule.find(s => s.day === todayName);
 
       const allTasks  = categories.flatMap(c => c.tasks);
-      const totalDone = Object.values(completed).filter(Boolean).length;
+      const totalDone = allTasks.filter(t => isDone(completed, t.id)).length;
       const progress  = Math.round((totalDone / allTasks.length) * 100);
 
       const cat     = categories[activeCat];
-      const catDone = cat.tasks.filter(task => completed[task.id]).length;
+      const catDone = cat.tasks.filter(t => isDone(completed, t.id)).length;
 
-      // ── Theme tokens (light / dark) ──
+      // ── Theme tokens ──
       const dk = darkMode;
       const t = {
         pageBg:     dk ? "#0F172A" : "#F8FAFC",
@@ -257,6 +291,9 @@
         tabInactive:dk ? "#94A3B8" : "#6B7280",
         rowBg:      dk ? "#0F172A" : "#F8FAFC",
         catCardBg:  dk ? `${cat.accent}18` : cat.color,
+        doneBg:     dk ? "#052e16" : "#F0FDF4",
+        doneBorder: dk ? "#166534" : "#BBF7D0",
+        doneText:   dk ? "#4ade80" : "#166534",
         sidebarBtn: (c, active) => active ? (dk ? `${c.accent}18` : c.color) : (dk ? "#1E293B" : "white"),
       };
 
@@ -265,8 +302,6 @@
         setAnimating(true);
         setTimeout(() => { setActiveCat(idx); setActiveTab("tasks"); setAnimating(false); }, 180);
       };
-
-      const toggleComplete = (id) => setCompleted(prev => ({ ...prev, [id]: !prev[id] }));
 
       const addLogEntry = () => {
         if (!logInput.task.trim()) return;
@@ -278,6 +313,9 @@
         setLog(prev => [entry, ...prev]);
         setLogInput({ task: "", action: "", outcome: "" });
       };
+
+      // Column width for Graeme / Emily checkbox columns
+      const personColW = 68;
 
       return (
         <div style={{ minHeight: "100vh", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
@@ -306,7 +344,7 @@
               )}
 
               <div className="progress-row">
-                <span>{totalDone} of {allTasks.length} tasks marked done</span>
+                <span>{totalDone} of {allTasks.length} tasks marked complete</span>
                 <span>{progress}%</span>
               </div>
               <div className="progress-bar">
@@ -324,7 +362,7 @@
               {/* Mobile: horizontal scrollable pill strip */}
               <div className="step-strip">
                 {categories.map((c, i) => {
-                  const done = c.tasks.filter(task => completed[task.id]).length;
+                  const done = c.tasks.filter(task => isDone(completed, task.id)).length;
                   const isActive = i === activeCat;
                   return (
                     <button key={c.id} className="step-pill"
@@ -341,7 +379,7 @@
               {/* Desktop: vertical list */}
               <div className="sidebar-list">
                 {categories.map((c, i) => {
-                  const done = c.tasks.filter(task => completed[task.id]).length;
+                  const done = c.tasks.filter(task => isDone(completed, task.id)).length;
                   const isActive = i === activeCat;
                   return (
                     <button key={c.id} className="sidebar-btn"
@@ -351,7 +389,7 @@
                         <span style={{ fontSize: 18 }}>{c.icon}</span>
                         <span style={{ fontSize: 13, fontWeight: 700, color: isActive ? c.accent : t.textMuted }}>{c.title}</span>
                       </div>
-                      <div style={{ fontSize: 11, color: t.label, marginLeft: 26 }}>{done} of {c.tasks.length} done</div>
+                      <div style={{ fontSize: 11, color: t.label, marginLeft: 26 }}>{done} of {c.tasks.length} complete</div>
                       <div style={{ marginLeft: 26, marginTop: 5, height: 3, borderRadius: 2, background: t.border, overflow: "hidden" }}>
                         <div style={{ height: "100%", borderRadius: 2, background: c.accent, width: `${Math.round((done / c.tasks.length) * 100)}%`, transition: "width 0.4s ease" }} />
                       </div>
@@ -380,7 +418,7 @@
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
                   <span style={{ fontSize: 30 }}>{cat.icon}</span>
                   <div>
-                    <div style={{ fontSize: 11, color: cat.accent, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>{catDone} of {cat.tasks.length} done</div>
+                    <div style={{ fontSize: 11, color: cat.accent, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>{catDone} of {cat.tasks.length} complete</div>
                     <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: t.text }}>{cat.title}</h2>
                   </div>
                 </div>
@@ -408,21 +446,58 @@
               {/* ── Tasks tab ── */}
               {activeTab === "tasks" && (
                 <div className="card" style={{ background: t.card, boxShadow: t.cardShadow }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>All {cat.title} Tasks</div>
+
+                  {/* Column header row */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "0 14px 10px", borderBottom: `1px solid ${t.border}`, marginBottom: 10 }}>
+                    <div style={{ flex: 1, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label }}>
+                      {cat.title} Tasks
+                    </div>
+                    <div className="person-col person-label" style={{ width: personColW, textAlign: "center", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: t.label }}>
+                      Graeme
+                    </div>
+                    <div className="person-col person-label" style={{ width: personColW, textAlign: "center", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: t.label }}>
+                      Emily
+                    </div>
+                  </div>
+
+                  {/* Task rows */}
                   <div style={{ display: "grid", gap: 8 }}>
                     {cat.tasks.map(task => {
-                      const done = !!completed[task.id];
+                      const who  = completed[task.id];   // "graeme" | "emily" | null/undefined
+                      const done = isDone(completed, task.id);
                       return (
                         <div key={task.id} className="row-item"
-                          onClick={() => toggleComplete(task.id)}
-                          style={{ background: done ? (dk ? "#052e16" : "#F0FDF4") : t.rowBg, border: `1px solid ${done ? (dk ? "#166534" : "#BBF7D0") : t.border}`, cursor: "pointer", transition: "all 0.2s" }}>
-                          <CheckIcon done={done} />
+                          style={{ background: done ? t.doneBg : t.rowBg, border: `1px solid ${done ? t.doneBorder : t.border}`, transition: "all 0.2s", alignItems: "center", gap: 12 }}>
+
+                          {/* Task info */}
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-                              <span style={{ fontSize: 14, fontWeight: 600, color: done ? (dk ? "#4ade80" : "#166534") : t.text, textDecoration: done ? "line-through" : "none" }}>{task.name}</span>
+                              <span style={{ fontSize: 14, fontWeight: 600, color: done ? t.doneText : t.text }}>{task.name}</span>
                               <FreqBadge freq={task.freq} />
                             </div>
                             <div style={{ fontSize: 12, color: t.label, lineHeight: 1.4 }}>{task.notes}</div>
+                          </div>
+
+                          {/* Graeme checkbox */}
+                          <div className="person-col" style={{ width: personColW, display: "flex", justifyContent: "center", flexShrink: 0 }}>
+                            <PersonCheck
+                              checked={who === "graeme"}
+                              greyed={who === "emily"}
+                              onClick={() => toggleComplete(task.id, "graeme")}
+                              accent={cat.accent}
+                              dark={dk}
+                            />
+                          </div>
+
+                          {/* Emily checkbox */}
+                          <div className="person-col" style={{ width: personColW, display: "flex", justifyContent: "center", flexShrink: 0 }}>
+                            <PersonCheck
+                              checked={who === "emily"}
+                              greyed={who === "graeme"}
+                              onClick={() => toggleComplete(task.id, "emily")}
+                              accent={cat.accent}
+                              dark={dk}
+                            />
                           </div>
                         </div>
                       );
@@ -494,8 +569,8 @@
                       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>History ({log.length} {log.length === 1 ? "entry" : "entries"})</div>
                       <div style={{ display: "grid", gap: 10 }}>
                         {log.map(entry => (
-                          <div key={entry.id} className="row-item" style={{ background: t.rowBg, border: `1px solid ${t.border}`, flexDirection: "column", gap: 4 }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <div key={entry.id} className="row-item" style={{ background: t.rowBg, border: `1px solid ${t.border}`, flexDirection: "column", gap: 4, alignItems: "flex-start" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
                               <span style={{ fontSize: 13, fontWeight: 700, color: t.text }}>{entry.task}</span>
                               <span style={{ fontSize: 11, color: t.label }}>{entry.date}</span>
                             </div>
