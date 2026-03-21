@@ -9,8 +9,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { overflow-x: hidden; height: -webkit-fill-available; }
-    body { max-width: 100%; font-family: Calibri, sans-serif; background: #F8FAFC; min-height: 100vh; min-height: -webkit-fill-available; overflow-x: hidden; }
+    html, body { overflow-x: hidden; max-width: 100%; }
+    body { font-family: Calibri, sans-serif; background: #F8FAFC; }
     a:hover { opacity: 0.8; }
     button { font-family: Calibri, sans-serif; }
     button:hover { filter: brightness(0.95); }
@@ -59,17 +59,25 @@
       .app-header  { padding: 16px; }
       .site-title  { font-size: 20px; }
       .body-grid   { grid-template-columns: 1fr !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; box-sizing: border-box !important; padding: 16px 12px; gap: 14px; }
-      .sidebar     { position: static; top: auto; }
-      .step-hero   { padding: 14px 16px; }
-      .card        { padding: 14px 16px; }
-      .tab-btn     { font-size: 12px; padding: 10px 2px; }
+      .sidebar     { position: static; top: auto; width: 100%; overflow-x: hidden; }
+      .step-hero   { padding: 14px 16px; overflow: hidden; }
+      .card        { padding: 14px 16px; overflow: hidden; word-break: break-word; }
+      .tab-btn     { font-size: 12px; padding: 10px 2px; min-width: 0; overflow: hidden; }
       .dark-btn    { padding: 8px 12px; font-size: 13px; }
+      .main-col    { overflow-x: hidden !important; max-width: 100% !important; }
+      * { max-width: 100%; box-sizing: border-box; }
       .person-col  { width: 52px !important; }
       .person-label { font-size: 10px !important; }
     }
   </style>
 </head>
 <body>
+  <style>
+    /* Safari iPhone hard reset */
+    html { height: -webkit-fill-available; }
+    body { min-height: 100vh; min-height: -webkit-fill-available; overflow-x: hidden !important; }
+    #root { overflow-x: hidden !important; width: 100vw; max-width: 100%; }
+  </style>
   <div id="root"></div>
   <script type="text/babel">
     const { useState, useEffect } = React;
