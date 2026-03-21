@@ -93,40 +93,26 @@
           { id: "c3",  name: "Wipe kitchen benches",         freq: "Daily",       notes: "After cooking; prevents grease and ant attraction" },
           { id: "c4",  name: "Clean stovetop",               freq: "Weekly",      notes: "Grease builds quickly in Perth heat" },
           { id: "c5",  name: "Clean oven interior",          freq: "Monthly",     notes: "Log product used and soak time" },
-          { id: "c6",  name: "Clean microwave",              freq: "Weekly",      notes: "Wipe interior and exterior" },
+          { id: "c6",  name: "Clean microwave",              freq: "Fortnightly", notes: "Wipe interior and exterior" },
           { id: "c7",  name: "Clean bathroom sink/mirror",   freq: "Weekly",      notes: "Limescale common due to Perth hard water" },
           { id: "c8",  name: "Scrub toilet",                 freq: "Weekly",      notes: "Inside bowl and exterior" },
           { id: "c9",  name: "Scrub shower/bath",            freq: "Weekly",      notes: "Perth hard water causes quick soap scum buildup" },
-          { id: "c10", name: "Dust surfaces and shelves",    freq: "Weekly",      notes: "Perth dust is significant — check fans and blinds" },
-          { id: "c11", name: "Clean ceiling fans",           freq: "Monthly",     notes: "Dust accumulates rapidly; affects air quality" },
-          { id: "c12", name: "Wipe windowsills",             freq: "Fortnightly", notes: "Inside and outside if accessible" },
+          { id: "c10", name: "Dust surfaces and shelves",    freq: "Monthly",     notes: "Perth dust is significant — check fans and blinds" },
+          { id: "c12", name: "Wipe windowsills",             freq: "Monthly",     notes: "Inside and outside if accessible" },
           { id: "c13", name: "Wash windows",                 freq: "Quarterly",   notes: "Interior priority; exterior after rain or dust" },
           { id: "c14", name: "Clean light switches/handles", freq: "Monthly",     notes: "High-touch surfaces; hygiene important" },
-        ]
-      },
-      {
-        id: "laundry", title: "Laundry", icon: "👕",
-        color: "#F5F3FF", accent: "#8B5CF6",
-        tasks: [
-          { id: "l1", name: "Wash clothes",        freq: "2–3x/week", notes: "Sort by colour/fabric; log any stain treatment" },
-          { id: "l2", name: "Hang/dry clothes",    freq: "Same day",  notes: "Perth sun is ideal for drying; avoid midday peak" },
-          { id: "l3", name: "Fold and put away",   freq: "Same day",  notes: "Don't let it pile up — leads to missed items" },
-          { id: "l4", name: "Wash bed linen",      freq: "Weekly",    notes: "Fitted sheet, pillowcases; log date" },
-          { id: "l5", name: "Wash towels",         freq: "Weekly",    notes: "Hang to air-dry between uses" },
-          { id: "l6", name: "Wash doona/blankets", freq: "Monthly",   notes: "Check care labels; sunny days ideal for Perth" },
         ]
       },
       {
         id: "kitchen", title: "Kitchen", icon: "🍽️",
         color: "#FFF7ED", accent: "#F97316",
         tasks: [
-          { id: "k1", name: "Wash dishes / run dishwasher", freq: "Daily",     notes: "Don't leave overnight — attracts pests" },
-          { id: "k2", name: "Empty dishwasher",             freq: "Daily",     notes: "Do in morning to keep sink clear" },
-          { id: "k3", name: "Wipe down fridge exterior",    freq: "Weekly",    notes: "Check handle and top for dust" },
-          { id: "k4", name: "Clean fridge interior",        freq: "Monthly",   notes: "Remove expired items; wipe shelves" },
-          { id: "k5", name: "Take out rubbish",             freq: "2–3x/week", notes: "Check bin day schedule; note council collection" },
-          { id: "k6", name: "Wipe pantry shelves",          freq: "Monthly",   notes: "Check for expired items and pests" },
-          { id: "k7", name: "Descale kettle",               freq: "Monthly",   notes: "Perth hard water causes rapid scale buildup" },
+          { id: "k_dishwasher", name: "Clean dishwasher",        freq: "Fortnightly", notes: "Run a cleaning cycle; wipe door seals and filter" },
+          { id: "k_washer",     name: "Clean washing machine",   freq: "Fortnightly", notes: "Run a cleaning cycle; wipe door seals and detergent drawer" },
+          { id: "k3",           name: "Wipe down fridge exterior", freq: "Weekly",    notes: "Check handle and top for dust" },
+          { id: "k4",           name: "Clean fridge interior",   freq: "Monthly",     notes: "Remove expired items; wipe shelves" },
+          { id: "k6",           name: "Wipe pantry shelves",     freq: "Quarterly",   notes: "Check for expired items and pests" },
+          { id: "k7",           name: "Descale kettle",          freq: "Monthly",     notes: "Perth hard water causes rapid scale buildup" },
         ]
       },
       {
@@ -135,35 +121,34 @@
         tasks: [
           { id: "g1", name: "Mow Kikuyu lawn",           freq: "Weekly (summer) / Fortnightly (winter)", notes: "Kikuyu grows aggressively in summer; log height cut" },
           { id: "g2", name: "Edge lawn",                  freq: "Same as mow",          notes: "Keep borders clean; Kikuyu spreads into garden beds" },
-          { id: "g3", name: "Water lawn",                 freq: "Per council schedule", notes: "Check Perth council watering restrictions" },
-          { id: "g4", name: "Water garden beds",          freq: "Per council schedule", notes: "Adjust for season; garden plants need more than Kikuyu" },
+          { id: "g3", name: "Water lawn",                 freq: "Wed & Sun",            notes: "Per Perth council watering restrictions" },
+          { id: "g4", name: "Water garden beds",          freq: "Tue, Thu & Sat",       notes: "Adjust for season; garden plants need more than Kikuyu" },
           { id: "g5", name: "Weed garden beds",           freq: "Fortnightly",          notes: "Kikuyu runners invade beds; pull early" },
-          { id: "g6", name: "Sweep patio/outdoor areas",  freq: "Weekly",               notes: "Leaves and dust accumulate quickly in Perth wind" },
+          { id: "g6", name: "Sweep patio/outdoor areas",  freq: "Fortnightly",          notes: "Leaves and dust accumulate quickly in Perth wind" },
           { id: "g7", name: "Clean outdoor furniture",    freq: "Monthly",              notes: "UV and dust damage; cover when not in use" },
-          { id: "g8", name: "Check and clean gutters",    freq: "Quarterly",            notes: "Especially before and after summer storms" },
+          { id: "g8", name: "Check and clean gutters",    freq: "Twice yearly",         notes: "Especially before and after summer storms" },
         ]
       },
       {
         id: "admin", title: "Admin", icon: "📋",
         color: "#FFF1F2", accent: "#F43F5E",
         tasks: [
-          { id: "a1", name: "Grocery shopping",            freq: "Weekly",  notes: "Maintain a running list; note substitutes" },
-          { id: "a2", name: "Check and restock supplies",  freq: "Weekly",  notes: "Cleaning products, paper goods, pantry staples" },
-          { id: "a3", name: "Pay household bills",         freq: "Monthly", notes: "Log due dates; set reminders" },
-          { id: "a4", name: "Review home management file", freq: "Monthly", notes: "Update tasks and log; propose changes" },
+          { id: "a1", name: "Grocery shopping",            freq: "Fri, Sat or Sun", notes: "Maintain a running list; note substitutes" },
+          { id: "a2", name: "Check and restock supplies",  freq: "Wed or Thu",     notes: "Cleaning products, paper goods, pantry staples" },
+          { id: "a4", name: "Review home management file", freq: "Weekly",         notes: "Update tasks and log; propose changes" },
         ]
       },
     ];
 
     // ── Weekly schedule ──
     const weeklySchedule = [
-      { day: "Monday",    tasks: ["Vacuum all floors", "Laundry load", "Wipe kitchen benches"] },
-      { day: "Tuesday",   tasks: ["Mop floors", "Fold/put away laundry", "Empty bins"] },
-      { day: "Wednesday", tasks: ["Bathroom clean (sink, toilet, shower)", "Laundry load"] },
-      { day: "Thursday",  tasks: ["Dust surfaces", "Clean microwave", "Wipe stovetop"] },
-      { day: "Friday",    tasks: ["Grocery shopping", "Restock supplies", "Wash bed linen"] },
-      { day: "Saturday",  tasks: ["Mow/edge lawn", "Sweep outdoor areas", "Fridge wipe"] },
-      { day: "Sunday",    tasks: ["Flexible / catch-up / rest — review what was missed this week"] },
+      { day: "Monday",    tasks: ["Vacuum all floors", "Wipe kitchen benches"] },
+      { day: "Tuesday",   tasks: ["Mop floors", "Water garden beds", "Wipe kitchen benches", "Vacuum all floors"] },
+      { day: "Wednesday", tasks: ["Bathroom clean (sink, toilet, shower)", "Check and restock supplies", "Water lawn", "Wipe kitchen benches", "Vacuum all floors"] },
+      { day: "Thursday",  tasks: ["Water garden beds", "Dust surfaces / wipe stovetop", "Wipe kitchen benches", "Vacuum all floors"] },
+      { day: "Friday",    tasks: ["Grocery shopping", "Wipe kitchen benches", "Vacuum all floors"] },
+      { day: "Saturday",  tasks: ["Mow / edge lawn", "Sweep outdoor areas", "Water garden beds", "Fridge wipe", "Wipe kitchen benches", "Vacuum all floors"] },
+      { day: "Sunday",    tasks: ["Water lawn", "Review home management file", "Flexible / catch-up / rest", "Wipe kitchen benches", "Vacuum all floors"] },
     ];
 
     // ── Perth seasonal context ──
@@ -201,7 +186,11 @@
       "2–3x/week":            { bg: "#FFF7ED", text: "#C2410C" },
       "Same day":             { bg: "#FEF9C3", text: "#92400E" },
       "Same as mow":          { bg: "#F0FDF4", text: "#15803D" },
-      "Per council schedule": { bg: "#F0F9FF", text: "#0369A1" },
+      "Wed & Sun":            { bg: "#F0F9FF", text: "#0369A1" },
+      "Tue, Thu & Sat":       { bg: "#F0FDF4", text: "#15803D" },
+      "Twice yearly":         { bg: "#FFF1F2", text: "#BE123C" },
+      "Fri, Sat or Sun":      { bg: "#EFF6FF", text: "#1D4ED8" },
+      "Wed or Thu":           { bg: "#EFF6FF", text: "#1D4ED8" },
       "Weekly (summer)":      { bg: "#EFF6FF", text: "#1D4ED8" },
     };
 
