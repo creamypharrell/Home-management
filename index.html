@@ -17,7 +17,7 @@
 
     /* ── Header ── */
     .app-header   { padding: 28px 32px 24px; transition: background 0.2s ease; }
-    .header-inner { max-width: 960px; margin: 0 auto; }
+    .header-inner { max-width: 1100px; margin: 0 auto; }
     .header-top   { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
     .site-title   { font-size: 26px; margin: 0; font-weight: 700; letter-spacing: -0.02em; }
     .dark-btn     { flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 8px 16px; min-height: 44px; border-radius: 8px; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); color: white; }
@@ -25,49 +25,58 @@
     .progress-bar { height: 6px; border-radius: 3px; overflow: hidden; background: rgba(255,255,255,0.1); }
     .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #22C55E, #3B82F6); transition: width 0.5s ease; }
 
-    /* ── Body grid ── */
-    .body-grid  { max-width: 960px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
-    .sidebar    { position: sticky; top: 20px; align-self: start; }
-    .main-col   { min-width: 0; }
-
-    /* ── Sidebar desktop buttons ── */
-    .sidebar-btn { width: 100%; text-align: left; border: none; cursor: pointer; padding: 12px 14px; border-radius: 10px; margin-bottom: 6px; transition: all 0.2s ease; display: block; }
-
-    /* ── Sidebar mobile pill strip ── */
-    .step-pill  { flex-shrink: 0; width: 100px; text-align: left; border: none; cursor: pointer; padding: 10px; border-radius: 10px; transition: all 0.2s ease; }
-
-    /* ── Category hero card ── */
-    .step-hero   { border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; height: auto; overflow: visible; width: 100%; box-sizing: border-box; }
+    /* ── Body wrapper ── */
+    .body-wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
 
     /* ── Tabs ── */
-    .tab-bar { display: flex; gap: 4px; margin-bottom: 14px; padding: 4px; border-radius: 10px; }
+    .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; padding: 4px; border-radius: 10px; }
     .tab-btn  { flex: 1; min-width: 0; overflow: hidden; min-height: 44px; padding: 10px 6px; border: none; cursor: pointer; border-radius: 7px; font-size: 13px; font-weight: 600; text-transform: capitalize; transition: all 0.2s ease; position: relative; }
 
-    /* ── Content cards ── */
+    /* ── Week grid ── */
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    /* ── Day column ── */
+    .day-col         { border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+    .day-col-header  { padding: 10px 8px 8px; text-align: center; flex-shrink: 0; }
+    .day-name        { font-size: 13px; font-weight: 700; }
+    .day-done-count  { font-size: 10px; margin-top: 4px; opacity: 0.75; }
+
+    /* G / E labels row inside each column */
+    .ge-labels { display: flex; justify-content: flex-end; gap: 2px; padding: 3px 6px; flex-shrink: 0; }
+    .ge-label  { width: 22px; text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* Task row */
+    .day-task-row  { display: flex; align-items: center; gap: 4px; padding: 6px 6px 6px 8px; border-top-width: 1px; border-top-style: solid; }
+    .day-task-name { flex: 1; font-size: 11px; font-weight: 500; line-height: 1.3; min-width: 0; word-break: break-word; }
+    .day-check-pair { display: flex; gap: 3px; flex-shrink: 0; }
+
+    /* ── Content cards (log / notes) ── */
     .card     { border-radius: 12px; padding: 20px 22px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
     .row-item { display: flex; gap: 12px; padding: 12px 14px; border-radius: 8px; align-items: center; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
 
-    /* ── Sidebar layout switching ── */
-    .step-strip   { display: none; }
-    .sidebar-list { display: block; }
-
     /* ── Mobile overrides (≤768px) ── */
     @media (max-width: 768px) {
-      .step-strip   { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-      .step-strip::-webkit-scrollbar { display: none; }
-      .sidebar-list { display: none; }
       .app-header  { padding: 16px; }
       .site-title  { font-size: 20px; }
-      .body-grid   { grid-template-columns: 1fr !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; box-sizing: border-box !important; padding: 16px 12px; gap: 14px; }
-      .sidebar     { position: static; top: auto; width: 100%; overflow-x: hidden; }
-      .step-hero   { padding: 14px 16px; overflow: hidden; }
-      .card        { padding: 14px 16px; overflow: hidden; word-break: break-word; }
+      .body-wrap   { padding: 14px 12px; }
       .tab-btn     { font-size: 12px; padding: 10px 2px; min-width: 0; overflow: hidden; }
       .dark-btn    { padding: 8px 12px; font-size: 13px; }
-      .main-col    { overflow-x: hidden !important; max-width: 100% !important; }
+      .card        { padding: 14px 16px; overflow: hidden; word-break: break-word; }
+      /* Week grid scrolls horizontally on mobile */
+      .week-grid {
+        grid-template-columns: repeat(7, 120px) !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        padding-bottom: 6px;
+      }
+      .week-grid::-webkit-scrollbar { display: none; }
       * { max-width: 100%; box-sizing: border-box; }
-      .person-col  { width: 52px !important; }
-      .person-label { font-size: 10px !important; }
     }
   </style>
 </head>
@@ -82,81 +91,66 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    // ── All household tasks from home_management.md ──
-    const categories = [
-      {
-        id: "cleaning", title: "Cleaning", icon: "🧹",
-        color: "#EFF6FF", accent: "#3B82F6",
-        tasks: [
-          { id: "c1",  name: "Vacuum all floors",            freq: "Daily",       notes: "Focus on high-traffic areas; do before mopping" },
-          { id: "c2",  name: "Mop hard floors",              freq: "Weekly",      notes: "After vacuuming; use appropriate cleaner per floor" },
-          { id: "c3",  name: "Wipe kitchen benches",         freq: "Daily",       notes: "After cooking; prevents grease and ant attraction" },
-          { id: "c4",  name: "Clean stovetop",               freq: "Weekly",      notes: "Grease builds quickly in Perth heat" },
-          { id: "c5",  name: "Clean oven interior",          freq: "Monthly",     notes: "Log product used and soak time" },
-          { id: "c6",  name: "Clean microwave",              freq: "Fortnightly", notes: "Wipe interior and exterior" },
-          { id: "c7",  name: "Clean bathroom sink/mirror",   freq: "Weekly",      notes: "Limescale common due to Perth hard water" },
-          { id: "c8",  name: "Scrub toilet",                 freq: "Weekly",      notes: "Inside bowl and exterior" },
-          { id: "c9",  name: "Scrub shower/bath",            freq: "Weekly",      notes: "Perth hard water causes quick soap scum buildup" },
-          { id: "c10", name: "Dust surfaces and shelves",    freq: "Monthly",     notes: "Perth dust is significant — check fans and blinds" },
-          { id: "c12", name: "Wipe windowsills",             freq: "Monthly",     notes: "Inside and outside if accessible" },
-          { id: "c13", name: "Wash windows",                 freq: "Quarterly",   notes: "Interior priority; exterior after rain or dust" },
-          { id: "c14", name: "Clean light switches/handles", freq: "Monthly",     notes: "High-touch surfaces; hygiene important" },
-        ]
-      },
-      {
-        id: "kitchen", title: "Kitchen", icon: "🍽️",
-        color: "#FFF7ED", accent: "#F97316",
-        tasks: [
-          { id: "k_dishwasher", name: "Clean dishwasher",        freq: "Fortnightly", notes: "Run a cleaning cycle; wipe door seals and filter" },
-          { id: "k_washer",     name: "Clean washing machine",   freq: "Fortnightly", notes: "Run a cleaning cycle; wipe door seals and detergent drawer" },
-          { id: "k3",           name: "Wipe down fridge exterior", freq: "Weekly",    notes: "Check handle and top for dust" },
-          { id: "k4",           name: "Clean fridge interior",   freq: "Monthly",     notes: "Remove expired items; wipe shelves" },
-          { id: "k6",           name: "Wipe pantry shelves",     freq: "Quarterly",   notes: "Check for expired items and pests" },
-          { id: "k7",           name: "Descale kettle",          freq: "Monthly",     notes: "Perth hard water causes rapid scale buildup" },
-        ]
-      },
-      {
-        id: "garden", title: "Garden", icon: "🌿",
-        color: "#F0FDF4", accent: "#22C55E",
-        tasks: [
-          { id: "g1", name: "Mow Kikuyu lawn",           freq: "Weekly (summer) / Fortnightly (winter)", notes: "Kikuyu grows aggressively in summer; log height cut" },
-          { id: "g2", name: "Edge lawn",                  freq: "Same as mow",          notes: "Keep borders clean; Kikuyu spreads into garden beds" },
-          { id: "g3", name: "Water lawn",                 freq: "Wed & Sun",            notes: "Per Perth council watering restrictions" },
-          { id: "g4", name: "Water garden beds",          freq: "Tue, Thu & Sat",       notes: "Adjust for season; garden plants need more than Kikuyu" },
-          { id: "g5", name: "Weed garden beds",           freq: "Fortnightly",          notes: "Kikuyu runners invade beds; pull early" },
-          { id: "g6", name: "Sweep patio/outdoor areas",  freq: "Fortnightly",          notes: "Leaves and dust accumulate quickly in Perth wind" },
-          { id: "g7", name: "Clean outdoor furniture",    freq: "Monthly",              notes: "UV and dust damage; cover when not in use" },
-          { id: "g8", name: "Check and clean gutters",    freq: "Twice yearly",         notes: "Especially before and after summer storms" },
-        ]
-      },
-      {
-        id: "admin", title: "Admin", icon: "📋",
-        color: "#FFF1F2", accent: "#F43F5E",
-        tasks: [
-          { id: "a1", name: "Grocery shopping",            freq: "Fri, Sat or Sun", notes: "Maintain a running list; note substitutes" },
-          { id: "a2", name: "Check and restock supplies",  freq: "Wed or Thu",     notes: "Cleaning products, paper goods, pantry staples" },
-          { id: "a4", name: "Review home management file", freq: "Weekly",         notes: "Update tasks and log; propose changes" },
-        ]
-      },
-    ];
-
-    // ── Weekly schedule ──
-    const weeklySchedule = [
-      { day: "Monday",    tasks: ["Vacuum all floors", "Wipe kitchen benches"] },
-      { day: "Tuesday",   tasks: ["Mop floors", "Water garden beds", "Wipe kitchen benches", "Vacuum all floors"] },
-      { day: "Wednesday", tasks: ["Bathroom clean (sink, toilet, shower)", "Check and restock supplies", "Water lawn", "Wipe kitchen benches", "Vacuum all floors"] },
-      { day: "Thursday",  tasks: ["Water garden beds", "Dust surfaces / wipe stovetop", "Wipe kitchen benches", "Vacuum all floors"] },
-      { day: "Friday",    tasks: ["Grocery shopping", "Wipe kitchen benches", "Vacuum all floors"] },
-      { day: "Saturday",  tasks: ["Mow / edge lawn", "Sweep outdoor areas", "Water garden beds", "Fridge wipe", "Wipe kitchen benches", "Vacuum all floors"] },
-      { day: "Sunday",    tasks: ["Water lawn", "Review home management file", "Flexible / catch-up / rest", "Wipe kitchen benches", "Vacuum all floors"] },
+    // ── Weekly task schedule ──
+    // Each task has a unique ID so completion is tracked per task per day
+    const weekSchedule = [
+      { day: "Monday",    short: "Mon", tasks: [
+        { id: "mon_1", name: "Vacuum all floors" },
+        { id: "mon_2", name: "Wipe kitchen benches" },
+        { id: "mon_3", name: "Laundry load" },
+      ]},
+      { day: "Tuesday",   short: "Tue", tasks: [
+        { id: "tue_1", name: "Mop hard floors" },
+        { id: "tue_2", name: "Fold / put away laundry" },
+        { id: "tue_3", name: "Empty bins" },
+        { id: "tue_4", name: "Vacuum all floors" },
+        { id: "tue_5", name: "Wipe kitchen benches" },
+      ]},
+      { day: "Wednesday", short: "Wed", tasks: [
+        { id: "wed_1", name: "Bathroom clean" },
+        { id: "wed_2", name: "Laundry load" },
+        { id: "wed_3", name: "Water lawn" },
+        { id: "wed_4", name: "Vacuum all floors" },
+        { id: "wed_5", name: "Wipe kitchen benches" },
+      ]},
+      { day: "Thursday",  short: "Thu", tasks: [
+        { id: "thu_1", name: "Dust surfaces" },
+        { id: "thu_2", name: "Clean microwave" },
+        { id: "thu_3", name: "Wipe stovetop" },
+        { id: "thu_4", name: "Water garden beds" },
+        { id: "thu_5", name: "Vacuum all floors" },
+        { id: "thu_6", name: "Wipe kitchen benches" },
+      ]},
+      { day: "Friday",    short: "Fri", tasks: [
+        { id: "fri_1", name: "Grocery shopping" },
+        { id: "fri_2", name: "Restock supplies" },
+        { id: "fri_3", name: "Wash bed linen" },
+        { id: "fri_4", name: "Vacuum all floors" },
+        { id: "fri_5", name: "Wipe kitchen benches" },
+      ]},
+      { day: "Saturday",  short: "Sat", tasks: [
+        { id: "sat_1", name: "Mow / edge lawn" },
+        { id: "sat_2", name: "Sweep outdoor areas" },
+        { id: "sat_3", name: "Wipe fridge exterior" },
+        { id: "sat_4", name: "Water garden beds" },
+        { id: "sat_5", name: "Vacuum all floors" },
+        { id: "sat_6", name: "Wipe kitchen benches" },
+      ]},
+      { day: "Sunday",    short: "Sun", tasks: [
+        { id: "sun_1", name: "Water lawn" },
+        { id: "sun_2", name: "Review home management" },
+        { id: "sun_3", name: "Flexible / catch-up" },
+        { id: "sun_4", name: "Vacuum all floors" },
+        { id: "sun_5", name: "Wipe kitchen benches" },
+      ]},
     ];
 
     // ── Perth seasonal context ──
     const seasonInfo = {
-      summer: { label: "Summer", months: "Dec–Feb", icon: "☀️", tip: "↑ Lawn mowing frequency; early morning watering only; ↑ dust cleaning; check fans" },
-      autumn: { label: "Autumn", months: "Mar–May", icon: "🍂", tip: "Wind increases leaf/debris; gutter check before end of season" },
-      winter: { label: "Winter", months: "Jun–Aug", icon: "🌧️", tip: "↓ Lawn mowing; ↑ indoor cleaning focus; check for mould in bathrooms" },
-      spring: { label: "Spring", months: "Sep–Nov", icon: "🌸", tip: "Resume lawn schedule; weed surge in beds; pest check (ants, spiders)" },
+      summer: { label: "Summer", icon: "☀️", tip: "↑ Lawn mowing; early morning watering; ↑ dust cleaning" },
+      autumn: { label: "Autumn", icon: "🍂", tip: "Wind increases debris; gutter check before end of season" },
+      winter: { label: "Winter", icon: "🌧️", tip: "↓ Lawn mowing; ↑ indoor cleaning; check for mould" },
+      spring: { label: "Spring", icon: "🌸", tip: "Resume lawn schedule; weed surge; pest check" },
     };
 
     function getSeason() {
@@ -171,67 +165,37 @@
       return new Date().toLocaleDateString("en-AU", { weekday: "long" });
     }
 
-    // ── A task is "done" if either person has checked it ──
+    // A task is done if either person has checked it
     function isDone(completed, id) {
       return completed[id] === "graeme" || completed[id] === "emily";
     }
 
-    // ── Frequency badge colours ──
-    const freqColors = {
-      "Daily":                { bg: "#FEF3C7", text: "#92400E" },
-      "Weekly":               { bg: "#EFF6FF", text: "#1D4ED8" },
-      "Fortnightly":          { bg: "#F0FDF4", text: "#15803D" },
-      "Monthly":              { bg: "#F5F3FF", text: "#6D28D9" },
-      "Quarterly":            { bg: "#FFF1F2", text: "#BE123C" },
-      "2–3x/week":            { bg: "#FFF7ED", text: "#C2410C" },
-      "Same day":             { bg: "#FEF9C3", text: "#92400E" },
-      "Same as mow":          { bg: "#F0FDF4", text: "#15803D" },
-      "Wed & Sun":            { bg: "#F0F9FF", text: "#0369A1" },
-      "Tue, Thu & Sat":       { bg: "#F0FDF4", text: "#15803D" },
-      "Twice yearly":         { bg: "#FFF1F2", text: "#BE123C" },
-      "Fri, Sat or Sun":      { bg: "#EFF6FF", text: "#1D4ED8" },
-      "Wed or Thu":           { bg: "#EFF6FF", text: "#1D4ED8" },
-      "Weekly (summer)":      { bg: "#EFF6FF", text: "#1D4ED8" },
-    };
-
-    const FreqBadge = ({ freq }) => {
-      const key = Object.keys(freqColors).find(k => freq.startsWith(k)) || "";
-      const c = freqColors[key] || { bg: "#F3F4F6", text: "#374151" };
-      return (
-        <span style={{ background: c.bg, color: c.text, fontSize: "10px", fontWeight: 700, letterSpacing: "0.05em", padding: "2px 8px", borderRadius: "20px", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0 }}>{freq}</span>
-      );
-    };
-
     // ── Per-person checkbox ──
-    // checked  = this person has ticked this task
-    // greyed   = the OTHER person has ticked this task, so this one is locked out
+    // greyed = the other person has checked this task — locked out
     const PersonCheck = ({ checked, greyed, onClick, accent, dark }) => {
-      const baseCircle = dark ? "#334155" : "#E5E7EB";
+      const base = dark ? "#334155" : "#E5E7EB";
       if (greyed) {
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-            style={{ cursor: "not-allowed", opacity: 0.3, display: "block" }}>
-            <circle cx="12" cy="12" r="12" fill={baseCircle} />
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+            style={{ cursor: "not-allowed", opacity: 0.3, display: "block", flexShrink: 0 }}>
+            <circle cx="10" cy="10" r="10" fill={base} />
           </svg>
         );
       }
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
           onClick={onClick}
-          style={{ cursor: "pointer", display: "block", transition: "opacity 0.15s" }}>
-          <circle cx="12" cy="12" r="12" fill={checked ? accent : baseCircle} />
-          {checked && <path d="M7 12.5L10.5 16L17 9" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />}
+          style={{ cursor: "pointer", display: "block", flexShrink: 0, transition: "opacity 0.15s" }}>
+          <circle cx="10" cy="10" r="10" fill={checked ? accent : base} />
+          {checked && <path d="M5.5 10.5L8.5 13.5L14.5 7.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />}
         </svg>
       );
     };
 
     function App() {
-      const [activeCat, setActiveCat] = useState(0);
-      const [activeTab, setActiveTab] = useState("tasks");
-      const [animating, setAnimating]  = useState(false);
+      const [activeTab, setActiveTab] = useState("week");
 
       // completed[taskId] = "graeme" | "emily" | null
-      // A task is done when either person checks it; checking it again unchecks it.
       const [completed, setCompleted] = useState(() => {
         try { return JSON.parse(localStorage.getItem("dp_completed") || "{}"); } catch { return {}; }
       });
@@ -239,65 +203,26 @@
         try { return JSON.parse(localStorage.getItem("dp_log") || "[]"); } catch { return []; }
       });
       const [notes, setNotes] = useState(() => {
-        try { return JSON.parse(localStorage.getItem("dp_notes") || "{}"); } catch { return {}; }
+        try { return localStorage.getItem("dp_notes_general") || ""; } catch { return ""; }
       });
       const [darkMode, setDarkMode] = useState(() => {
         try { return localStorage.getItem("dp_dark") === "true"; } catch { return false; }
       });
-
       const [logInput, setLogInput] = useState({ task: "", action: "", outcome: "" });
 
-      useEffect(() => { localStorage.setItem("dp_completed", JSON.stringify(completed)); }, [completed]);
-      useEffect(() => { localStorage.setItem("dp_log",       JSON.stringify(log));       }, [log]);
-      useEffect(() => { localStorage.setItem("dp_notes",     JSON.stringify(notes));     }, [notes]);
-      useEffect(() => { localStorage.setItem("dp_dark",      darkMode);                  }, [darkMode]);
+      useEffect(() => { localStorage.setItem("dp_completed",    JSON.stringify(completed)); }, [completed]);
+      useEffect(() => { localStorage.setItem("dp_log",          JSON.stringify(log));       }, [log]);
+      useEffect(() => { localStorage.setItem("dp_notes_general", notes);                    }, [notes]);
+      useEffect(() => { localStorage.setItem("dp_dark",          darkMode);                 }, [darkMode]);
 
-      // Toggle: clicking your own checked box unchecks; clicking when other person owns it → no-op
+      // Clicking your own checked box unchecks; clicking when other person owns it → no-op
       const toggleComplete = (id, person) => {
         setCompleted(prev => {
-          const current = prev[id];
-          if (current === person) return { ...prev, [id]: null };   // uncheck
-          if (current && current !== person) return prev;            // locked — other person owns it
-          return { ...prev, [id]: person };                          // check
+          const cur = prev[id];
+          if (cur === person) return { ...prev, [id]: null };
+          if (cur && cur !== person) return prev;
+          return { ...prev, [id]: person };
         });
-      };
-
-      const season     = getSeason();
-      const todayName  = getTodayName();
-      const todaySched = weeklySchedule.find(s => s.day === todayName);
-
-      const allTasks  = categories.flatMap(c => c.tasks);
-      const totalDone = allTasks.filter(t => isDone(completed, t.id)).length;
-      const progress  = Math.round((totalDone / allTasks.length) * 100);
-
-      const cat     = categories[activeCat];
-      const catDone = cat.tasks.filter(t => isDone(completed, t.id)).length;
-
-      // ── Theme tokens ──
-      const dk = darkMode;
-      const t = {
-        pageBg:     dk ? "#0F172A" : "#F8FAFC",
-        header:     dk ? "#080D14" : "#1E293B",
-        card:       dk ? "#1E293B" : "white",
-        cardShadow: dk ? "0 1px 3px rgba(0,0,0,0.4)" : "0 1px 3px rgba(0,0,0,0.06)",
-        border:     dk ? "#334155" : "#E5E7EB",
-        text:       dk ? "#E2E8F0" : "#1E293B",
-        textMuted:  dk ? "#CBD5E1" : "#374151",
-        textMuted2: dk ? "#94A3B8" : "#4B5563",
-        label:      dk ? "#64748B" : "#9CA3AF",
-        tabInactive:dk ? "#94A3B8" : "#6B7280",
-        rowBg:      dk ? "#0F172A" : "#F8FAFC",
-        catCardBg:  dk ? `${cat.accent}18` : cat.color,
-        doneBg:     dk ? "#052e16" : "#F0FDF4",
-        doneBorder: dk ? "#166534" : "#BBF7D0",
-        doneText:   dk ? "#4ade80" : "#166534",
-        sidebarBtn: (c, active) => active ? (dk ? `${c.accent}18` : c.color) : (dk ? "#1E293B" : "white"),
-      };
-
-      const switchCat = (idx) => {
-        if (idx === activeCat) return;
-        setAnimating(true);
-        setTimeout(() => { setActiveCat(idx); setActiveTab("tasks"); setAnimating(false); }, 180);
       };
 
       const addLogEntry = () => {
@@ -311,8 +236,35 @@
         setLogInput({ task: "", action: "", outcome: "" });
       };
 
-      // Column width for Graeme / Emily checkbox columns
-      const personColW = 68;
+      const season    = getSeason();
+      const todayName = getTodayName();
+      const allTasks  = weekSchedule.flatMap(d => d.tasks);
+      const totalDone = allTasks.filter(tk => isDone(completed, tk.id)).length;
+      const progress  = Math.round((totalDone / allTasks.length) * 100);
+      const todayObj  = weekSchedule.find(d => d.day === todayName);
+      const todayDone = todayObj ? todayObj.tasks.filter(tk => isDone(completed, tk.id)).length : 0;
+      const todayTotal = todayObj ? todayObj.tasks.length : 0;
+
+      const dk = darkMode;
+      const ACCENT = "#3B82F6";
+      const t = {
+        pageBg:      dk ? "#0F172A" : "#F8FAFC",
+        header:      dk ? "#080D14" : "#1E293B",
+        card:        dk ? "#1E293B" : "white",
+        cardShadow:  dk ? "0 1px 3px rgba(0,0,0,0.4)" : "0 1px 3px rgba(0,0,0,0.06)",
+        colBg:       dk ? "#1E293B" : "white",
+        colHeader:   dk ? "#334155" : "#F1F5F9",
+        border:      dk ? "#334155" : "#E5E7EB",
+        text:        dk ? "#E2E8F0" : "#1E293B",
+        textMuted:   dk ? "#CBD5E1" : "#374151",
+        textMuted2:  dk ? "#94A3B8" : "#4B5563",
+        label:       dk ? "#64748B" : "#9CA3AF",
+        tabInactive: dk ? "#94A3B8" : "#6B7280",
+        rowBg:       dk ? "#0F172A" : "#F8FAFC",
+        doneBg:      dk ? "#052e16" : "#F0FDF4",
+        doneBorder:  dk ? "#166534" : "#BBF7D0",
+        doneText:    dk ? "#4ade80" : "#166534",
+      };
 
       return (
         <div style={{ minHeight: "100vh", width: "100%", maxWidth: "100%", overflowX: "hidden", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
@@ -325,7 +277,7 @@
                   <div style={{ fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 4 }}>Perth, Western Australia</div>
                   <h1 className="site-title">Domestic Planner</h1>
                   <p style={{ marginTop: 4, fontSize: 13, color: "#94A3B8" }}>
-                    {seasonInfo[season].icon} {seasonInfo[season].label} · {todayName} · {seasonInfo[season].tip}
+                    {seasonInfo[season].icon} {seasonInfo[season].label} · {todayName} · Today: {todayDone}/{todayTotal} done
                   </p>
                 </div>
                 <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
@@ -337,16 +289,8 @@
                   </button>
                 </div>
               </div>
-
-              {todaySched && (
-                <div style={{ marginBottom: 12, padding: "10px 14px", borderRadius: 10, background: "rgba(255,255,255,0.07)", fontSize: 13, color: "#CBD5E1" }}>
-                  <span style={{ color: "#94A3B8", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginRight: 8 }}>Today</span>
-                  {todaySched.tasks.join(" · ")}
-                </div>
-              )}
-
               <div className="progress-row">
-                <span>{totalDone} of {allTasks.length} tasks marked complete</span>
+                <span>This week: {totalDone} of {allTasks.length} tasks done</span>
                 <span>{progress}%</span>
               </div>
               <div className="progress-bar">
@@ -355,257 +299,170 @@
             </div>
           </div>
 
-          {/* ── Body grid ── */}
-          <div className="body-grid" style={{ background: t.pageBg }}>
+          {/* ── Body ── */}
+          <div className="body-wrap" style={{ background: t.pageBg }}>
 
-            {/* ── Sidebar ── */}
-            <div className="sidebar">
-
-              {/* Mobile: horizontal scrollable pill strip */}
-              <div className="step-strip">
-                {categories.map((c, i) => {
-                  const done = c.tasks.filter(task => isDone(completed, task.id)).length;
-                  const isActive = i === activeCat;
-                  return (
-                    <button key={c.id} className="step-pill"
-                      onClick={() => switchCat(i)}
-                      style={{ background: t.sidebarBtn(c, isActive), borderTop: isActive ? `3px solid ${c.accent}` : "3px solid transparent", boxShadow: isActive ? `0 2px 10px ${c.accent}33` : t.cardShadow }}>
-                      <div style={{ fontSize: 20, marginBottom: 4 }}>{c.icon}</div>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: isActive ? c.accent : t.textMuted, lineHeight: 1.3 }}>{c.title}</div>
-                      <div style={{ fontSize: 10, color: t.label, marginTop: 2 }}>{done}/{c.tasks.length}</div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Desktop: vertical list */}
-              <div className="sidebar-list">
-                {categories.map((c, i) => {
-                  const done = c.tasks.filter(task => isDone(completed, task.id)).length;
-                  const isActive = i === activeCat;
-                  return (
-                    <button key={c.id} className="sidebar-btn"
-                      onClick={() => switchCat(i)}
-                      style={{ background: t.sidebarBtn(c, isActive), borderLeft: isActive ? `3px solid ${c.accent}` : "3px solid transparent", boxShadow: isActive ? `0 2px 12px ${c.accent}22` : t.cardShadow }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
-                        <span style={{ fontSize: 18 }}>{c.icon}</span>
-                        <span style={{ fontSize: 13, fontWeight: 700, color: isActive ? c.accent : t.textMuted }}>{c.title}</span>
-                      </div>
-                      <div style={{ fontSize: 11, color: t.label, marginLeft: 26 }}>{done} of {c.tasks.length} complete</div>
-                      <div style={{ marginLeft: 26, marginTop: 5, height: 3, borderRadius: 2, background: t.border, overflow: "hidden" }}>
-                        <div style={{ height: "100%", borderRadius: 2, background: c.accent, width: `${Math.round((done / c.tasks.length) * 100)}%`, transition: "width 0.4s ease" }} />
-                      </div>
-                    </button>
-                  );
-                })}
-
-                {/* Season info card */}
-                <div className="card" style={{ marginTop: 16, background: t.card, boxShadow: t.cardShadow }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 10 }}>Perth Seasons</div>
-                  {Object.entries(seasonInfo).map(([key, s]) => (
-                    <div key={key} style={{ fontSize: 12, padding: "5px 0", borderBottom: `1px solid ${t.border}`, color: key === season ? cat.accent : t.textMuted, fontWeight: key === season ? 700 : 400 }}>
-                      {s.icon} {s.label} <span style={{ color: t.label, fontWeight: 400 }}>({s.months})</span>
-                      {key === season && <div style={{ fontSize: 11, color: t.label, fontWeight: 400, marginTop: 3, lineHeight: 1.4 }}>{s.tip}</div>}
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Tab bar */}
+            <div className="tab-bar" style={{ background: t.card, boxShadow: t.cardShadow }}>
+              {["week", "log", "notes"].map(tab => (
+                <button key={tab} className="tab-btn" onClick={() => setActiveTab(tab)}
+                  style={{ background: activeTab === tab ? ACCENT : "transparent", color: activeTab === tab ? "white" : t.tabInactive }}>
+                  {tab}
+                  {tab === "log" && log.length > 0 && activeTab !== "log" && (
+                    <span style={{ position: "absolute", top: 7, right: 7, width: 6, height: 6, borderRadius: "50%", background: ACCENT }} />
+                  )}
+                  {tab === "notes" && notes && activeTab !== "notes" && (
+                    <span style={{ position: "absolute", top: 7, right: 7, width: 6, height: 6, borderRadius: "50%", background: ACCENT }} />
+                  )}
+                </button>
+              ))}
             </div>
 
-            {/* ── Main content ── */}
-            <div className="main-col" style={{ opacity: animating ? 0 : 1, transform: animating ? "translateY(8px)" : "translateY(0)", transition: "opacity 0.18s ease, transform 0.18s ease" }}>
+            {/* ── Week tab: 7-column day grid ── */}
+            {activeTab === "week" && (
+              <div className="week-grid">
+                {weekSchedule.map(dayObj => {
+                  const isToday   = dayObj.day === todayName;
+                  const doneCt    = dayObj.tasks.filter(tk => isDone(completed, tk.id)).length;
+                  const colAccent = isToday ? ACCENT : (dk ? "#475569" : "#64748B");
 
-              {/* Category hero */}
-              <div className="step-hero" style={{ background: t.catCardBg, borderLeft: `5px solid ${cat.accent}`, boxShadow: `0 4px 20px ${cat.accent}18` }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
-                  <span style={{ fontSize: 30 }}>{cat.icon}</span>
-                  <div>
-                    <div style={{ fontSize: 11, color: cat.accent, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>{catDone} of {cat.tasks.length} complete</div>
-                    <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: t.text }}>{cat.title}</h2>
-                  </div>
-                </div>
-                <div style={{ height: 6, borderRadius: 3, background: "rgba(0,0,0,0.08)", overflow: "hidden" }}>
-                  <div style={{ height: "100%", borderRadius: 3, background: cat.accent, width: `${Math.round((catDone / cat.tasks.length) * 100)}%`, transition: "width 0.4s ease" }} />
-                </div>
-              </div>
+                  return (
+                    <div key={dayObj.day} className="day-col"
+                      style={{
+                        background: t.colBg,
+                        boxShadow: isToday ? `0 0 0 2px ${ACCENT}` : t.cardShadow,
+                      }}>
 
-              {/* Tab bar */}
-              <div className="tab-bar" style={{ background: t.card, boxShadow: t.cardShadow }}>
-                {["tasks", "schedule", "log", "notes"].map(tab => (
-                  <button key={tab} className="tab-btn" onClick={() => setActiveTab(tab)}
-                    style={{ background: activeTab === tab ? cat.accent : "transparent", color: activeTab === tab ? "white" : t.tabInactive }}>
-                    {tab}
-                    {tab === "notes" && notes[cat.id] && activeTab !== "notes" && (
-                      <span style={{ position: "absolute", top: 7, right: 7, width: 6, height: 6, borderRadius: "50%", background: cat.accent }} />
-                    )}
-                    {tab === "log" && log.length > 0 && activeTab !== "log" && (
-                      <span style={{ position: "absolute", top: 7, right: 7, width: 6, height: 6, borderRadius: "50%", background: cat.accent }} />
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              {/* ── Tasks tab ── */}
-              {activeTab === "tasks" && (
-                <div className="card" style={{ background: t.card, boxShadow: t.cardShadow }}>
-
-                  {/* Column header row */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "0 14px 10px", borderBottom: `1px solid ${t.border}`, marginBottom: 10 }}>
-                    <div style={{ flex: 1, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label }}>
-                      {cat.title} Tasks
-                    </div>
-                    <div className="person-col person-label" style={{ width: personColW, textAlign: "center", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: t.label }}>
-                      Graeme
-                    </div>
-                    <div className="person-col person-label" style={{ width: personColW, textAlign: "center", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: t.label }}>
-                      Emily
-                    </div>
-                  </div>
-
-                  {/* Task rows */}
-                  <div style={{ display: "grid", gap: 8 }}>
-                    {cat.tasks.map(task => {
-                      const who  = completed[task.id];   // "graeme" | "emily" | null/undefined
-                      const done = isDone(completed, task.id);
-                      return (
-                        <div key={task.id} className="row-item"
-                          style={{ background: done ? t.doneBg : t.rowBg, border: `1px solid ${done ? t.doneBorder : t.border}`, transition: "all 0.2s", alignItems: "center", gap: 12 }}>
-
-                          {/* Task info */}
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-                              <span style={{ fontSize: 14, fontWeight: 600, color: done ? t.doneText : t.text }}>{task.name}</span>
-                              <FreqBadge freq={task.freq} />
-                            </div>
-                          </div>
-
-                          {/* Graeme checkbox */}
-                          <div className="person-col" style={{ width: personColW, display: "flex", justifyContent: "center", flexShrink: 0 }}>
-                            <PersonCheck
-                              checked={who === "graeme"}
-                              greyed={who === "emily"}
-                              onClick={() => toggleComplete(task.id, "graeme")}
-                              accent={cat.accent}
-                              dark={dk}
-                            />
-                          </div>
-
-                          {/* Emily checkbox */}
-                          <div className="person-col" style={{ width: personColW, display: "flex", justifyContent: "center", flexShrink: 0 }}>
-                            <PersonCheck
-                              checked={who === "emily"}
-                              greyed={who === "graeme"}
-                              onClick={() => toggleComplete(task.id, "emily")}
-                              accent={cat.accent}
-                              dark={dk}
-                            />
-                          </div>
+                      {/* Day header */}
+                      <div className="day-col-header"
+                        style={{ background: isToday ? ACCENT : t.colHeader }}>
+                        <div className="day-name"
+                          style={{ color: isToday ? "white" : t.textMuted }}>
+                          {dayObj.short}
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* ── Schedule tab ── */}
-              {activeTab === "schedule" && (
-                <div style={{ display: "grid", gap: 10 }}>
-                  {weeklySchedule.map(s => {
-                    const isToday = s.day === todayName;
-                    return (
-                      <div key={s.day} className="row-item"
-                        style={{ background: isToday ? (dk ? `${cat.accent}18` : cat.color) : t.rowBg, border: `1px solid ${isToday ? cat.accent : t.border}`, borderLeft: isToday ? `4px solid ${cat.accent}` : `1px solid ${t.border}` }}>
-                        <div style={{ minWidth: 96 }}>
-                          <div style={{ fontSize: 13, fontWeight: 700, color: isToday ? cat.accent : t.textMuted }}>{s.day}</div>
-                          {isToday && <div style={{ fontSize: 10, color: cat.accent, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Today</div>}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          {s.tasks.map((task, i) => (
-                            <div key={i} style={{ fontSize: 13, color: t.textMuted2, padding: "2px 0" }}>· {task}</div>
-                          ))}
+                        {isToday && (
+                          <div style={{ fontSize: 9, color: "rgba(255,255,255,0.85)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>
+                            Today
+                          </div>
+                        )}
+                        <div className="day-done-count"
+                          style={{ color: isToday ? "rgba(255,255,255,0.75)" : t.label }}>
+                          {doneCt}/{dayObj.tasks.length}
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
 
-              {/* ── Log tab ── */}
-              {activeTab === "log" && (
-                <div style={{ display: "grid", gap: 12 }}>
+                      {/* G / E column labels */}
+                      <div className="ge-labels"
+                        style={{ color: t.label, background: t.colBg, borderBottom: `1px solid ${t.border}` }}>
+                        <span className="ge-label">G</span>
+                        <span className="ge-label">E</span>
+                      </div>
+
+                      {/* Task rows */}
+                      {dayObj.tasks.map(task => {
+                        const who  = completed[task.id];
+                        const done = isDone(completed, task.id);
+                        return (
+                          <div key={task.id} className="day-task-row"
+                            style={{
+                              background:    done ? t.doneBg : "transparent",
+                              borderTopColor: done ? t.doneBorder : t.border,
+                            }}>
+                            <div className="day-task-name"
+                              style={{ color: done ? t.doneText : t.text }}>
+                              {task.name}
+                            </div>
+                            <div className="day-check-pair">
+                              <PersonCheck
+                                checked={who === "graeme"}
+                                greyed={who === "emily"}
+                                onClick={() => toggleComplete(task.id, "graeme")}
+                                accent={colAccent}
+                                dark={dk}
+                              />
+                              <PersonCheck
+                                checked={who === "emily"}
+                                greyed={who === "graeme"}
+                                onClick={() => toggleComplete(task.id, "emily")}
+                                accent={colAccent}
+                                dark={dk}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ── Log tab ── */}
+            {activeTab === "log" && (
+              <div style={{ display: "grid", gap: 12 }}>
+                <div className="card" style={{ background: t.card, boxShadow: t.cardShadow }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>Add Log Entry</div>
+                  <div style={{ display: "grid", gap: 10 }}>
+                    <input value={logInput.task} onChange={e => setLogInput(p => ({ ...p, task: e.target.value }))} placeholder="Task name"
+                      style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 14, fontFamily: "Calibri, sans-serif", color: t.text, background: t.rowBg, outline: "none", boxSizing: "border-box" }} />
+                    <input value={logInput.action} onChange={e => setLogInput(p => ({ ...p, action: e.target.value }))} placeholder="What was done?"
+                      style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 14, fontFamily: "Calibri, sans-serif", color: t.text, background: t.rowBg, outline: "none", boxSizing: "border-box" }} />
+                    <input value={logInput.outcome} onChange={e => setLogInput(p => ({ ...p, outcome: e.target.value }))} placeholder="Outcome / notes"
+                      style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 14, fontFamily: "Calibri, sans-serif", color: t.text, background: t.rowBg, outline: "none", boxSizing: "border-box" }} />
+                    <button onClick={addLogEntry}
+                      style={{ padding: "12px", borderRadius: 8, border: "none", background: ACCENT, color: "white", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "Calibri, sans-serif" }}>
+                      + Add Entry
+                    </button>
+                  </div>
+                </div>
+
+                {log.length === 0 ? (
+                  <div className="card" style={{ background: t.card, boxShadow: t.cardShadow, textAlign: "center", color: t.label, fontSize: 14, padding: 32 }}>
+                    No log entries yet. Add your first one above.
+                  </div>
+                ) : (
                   <div className="card" style={{ background: t.card, boxShadow: t.cardShadow }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>Add Log Entry</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>
+                      History ({log.length} {log.length === 1 ? "entry" : "entries"})
+                    </div>
                     <div style={{ display: "grid", gap: 10 }}>
-                      <input
-                        value={logInput.task}
-                        onChange={e => setLogInput(p => ({ ...p, task: e.target.value }))}
-                        placeholder="Task name"
-                        style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 14, fontFamily: "Calibri, sans-serif", color: t.text, background: t.rowBg, outline: "none", boxSizing: "border-box" }}
-                      />
-                      <input
-                        value={logInput.action}
-                        onChange={e => setLogInput(p => ({ ...p, action: e.target.value }))}
-                        placeholder="What was done?"
-                        style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 14, fontFamily: "Calibri, sans-serif", color: t.text, background: t.rowBg, outline: "none", boxSizing: "border-box" }}
-                      />
-                      <input
-                        value={logInput.outcome}
-                        onChange={e => setLogInput(p => ({ ...p, outcome: e.target.value }))}
-                        placeholder="Outcome / notes"
-                        style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 14, fontFamily: "Calibri, sans-serif", color: t.text, background: t.rowBg, outline: "none", boxSizing: "border-box" }}
-                      />
-                      <button onClick={addLogEntry}
-                        style={{ padding: "12px", borderRadius: 8, border: "none", background: cat.accent, color: "white", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "Calibri, sans-serif" }}>
-                        + Add Entry
-                      </button>
+                      {log.map(entry => (
+                        <div key={entry.id} className="row-item"
+                          style={{ background: t.rowBg, border: `1px solid ${t.border}`, flexDirection: "column", gap: 4, alignItems: "flex-start" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                            <span style={{ fontSize: 13, fontWeight: 700, color: t.text }}>{entry.task}</span>
+                            <span style={{ fontSize: 11, color: t.label }}>{entry.date}</span>
+                          </div>
+                          {entry.action  && <div style={{ fontSize: 12, color: t.textMuted2 }}>Action: {entry.action}</div>}
+                          {entry.outcome && <div style={{ fontSize: 12, color: t.textMuted2 }}>Outcome: {entry.outcome}</div>}
+                        </div>
+                      ))}
                     </div>
                   </div>
+                )}
+              </div>
+            )}
 
-                  {log.length === 0 ? (
-                    <div className="card" style={{ background: t.card, boxShadow: t.cardShadow, textAlign: "center", color: t.label, fontSize: 14, padding: 32 }}>
-                      No log entries yet. Add your first one above.
-                    </div>
-                  ) : (
-                    <div className="card" style={{ background: t.card, boxShadow: t.cardShadow }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>History ({log.length} {log.length === 1 ? "entry" : "entries"})</div>
-                      <div style={{ display: "grid", gap: 10 }}>
-                        {log.map(entry => (
-                          <div key={entry.id} className="row-item" style={{ background: t.rowBg, border: `1px solid ${t.border}`, flexDirection: "column", gap: 4, alignItems: "flex-start" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                              <span style={{ fontSize: 13, fontWeight: 700, color: t.text }}>{entry.task}</span>
-                              <span style={{ fontSize: 11, color: t.label }}>{entry.date}</span>
-                            </div>
-                            {entry.action  && <div style={{ fontSize: 12, color: t.textMuted2 }}>Action: {entry.action}</div>}
-                            {entry.outcome && <div style={{ fontSize: 12, color: t.textMuted2 }}>Outcome: {entry.outcome}</div>}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
+            {/* ── Notes tab ── */}
+            {activeTab === "notes" && (
+              <div className="card" style={{ background: t.card, boxShadow: t.cardShadow }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>Notes</div>
+                <textarea
+                  value={notes}
+                  onChange={e => setNotes(e.target.value)}
+                  placeholder="Write anything useful — products you use, issues noticed, routines that work..."
+                  style={{ width: "100%", minHeight: 200, padding: "14px 16px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 15, lineHeight: 1.7, fontFamily: "Calibri, sans-serif", color: t.textMuted, background: t.rowBg, resize: "vertical", outline: "none", boxSizing: "border-box" }}
+                  onFocus={e => e.target.style.borderColor = ACCENT}
+                  onBlur={e => e.target.style.borderColor = t.border}
+                />
+                {notes && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: t.label, textAlign: "right" }}>
+                    {notes.length} characters · saved automatically
+                  </div>
+                )}
+              </div>
+            )}
 
-              {/* ── Notes tab ── */}
-              {activeTab === "notes" && (
-                <div className="card" style={{ background: t.card, boxShadow: t.cardShadow }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: t.label, marginBottom: 14 }}>Notes — {cat.title}</div>
-                  <textarea
-                    value={notes[cat.id] || ""}
-                    onChange={e => setNotes(prev => ({ ...prev, [cat.id]: e.target.value }))}
-                    placeholder="Write anything useful for this category — products you use, issues you've noticed, routines that work..."
-                    style={{ width: "100%", minHeight: 180, padding: "14px 16px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 15, lineHeight: 1.7, fontFamily: "Calibri, sans-serif", color: t.textMuted, background: t.rowBg, resize: "vertical", outline: "none", boxSizing: "border-box" }}
-                    onFocus={e => e.target.style.borderColor = cat.accent}
-                    onBlur={e => e.target.style.borderColor = t.border}
-                  />
-                  {notes[cat.id] && (
-                    <div style={{ marginTop: 8, fontSize: 12, color: t.label, textAlign: "right" }}>
-                      {notes[cat.id].length} characters · saved automatically
-                    </div>
-                  )}
-                </div>
-              )}
-
-            </div>
           </div>
         </div>
       );
